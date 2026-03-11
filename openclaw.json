@@ -1,0 +1,271 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.8",
+    "lastTouchedAt": "2026-03-11T21:07:13.383Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-11T16:55:06.158Z",
+    "lastRunVersion": "2026.3.8",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local"
+  },
+  "auth": {
+    "profiles": {
+      "anthropic:claude-cli": {
+        "provider": "anthropic",
+        "mode": "oauth"
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "claude-cli/sonnet-4.6"
+      },
+      "workspace": "/Users/renatobreia/.openclaw/workspace",
+      "cliBackends": {
+        "claude-cli": {
+          "command": "/Users/renatobreia/Library/Application Support/Claude/claude-code/2.1.72/claude",
+          "reliability": {
+            "watchdog": {
+              "fresh": {
+                "noOutputTimeoutMs": 600000
+              },
+              "resume": {
+                "noOutputTimeoutMs": 600000
+              }
+            }
+          }
+        }
+      },
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "1h"
+      },
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "heartbeat": {
+        "every": "1h"
+      },
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    }
+  },
+  "tools": {
+    "profile": "coding",
+    "web": {
+      "search": {
+        "provider": "brave"
+      }
+    },
+    "media": {
+      "audio": {
+        "enabled": true,
+        "maxBytes": 20971520,
+        "models": [
+          {
+            "type": "cli",
+            "command": "/opt/homebrew/bin/whisper",
+            "args": [
+              "--model",
+              "base",
+              "--language",
+              "pt",
+              "--output_format",
+              "txt",
+              "{{MediaPath}}"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions",
+    "tts": {
+      "auto": "off",
+      "provider": "edge",
+      "edge": {
+        "enabled": true,
+        "voice": "pt-BR-AntonioNeural",
+        "lang": "pt-BR",
+        "outputFormat": "audio-24khz-48kbitrate-mono-mp3"
+      }
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "hooks": {
+    "internal": {
+      "enabled": true,
+      "entries": {
+        "boot-md": {
+          "enabled": true
+        },
+        "bootstrap-extra-files": {
+          "enabled": true
+        },
+        "command-logger": {
+          "enabled": true
+        },
+        "session-memory": {
+          "enabled": true
+        },
+        "chroma-recall": {
+          "enabled": true
+        },
+        "memento-cbr": {
+          "enabled": true
+        },
+        "empo-tips-inject": {
+          "enabled": true
+        }
+      },
+      "installs": {
+        "chroma-recall": {
+          "source": "path",
+          "sourcePath": "/tmp/openclaw-hooks/chroma-recall",
+          "installPath": "/Users/renatobreia/.openclaw/hooks/chroma-recall",
+          "installedAt": "2026-03-11T19:28:25.659Z",
+          "hooks": [
+            "chroma-recall"
+          ]
+        },
+        "memento-cbr": {
+          "source": "path",
+          "sourcePath": "/tmp/openclaw-hooks/memento-cbr",
+          "installPath": "/Users/renatobreia/.openclaw/hooks/memento-cbr",
+          "installedAt": "2026-03-11T19:28:26.472Z",
+          "hooks": [
+            "memento-cbr"
+          ]
+        },
+        "empo-tips-inject": {
+          "source": "path",
+          "sourcePath": "/tmp/openclaw-hooks/empo-tips-inject",
+          "installPath": "/Users/renatobreia/.openclaw/hooks/empo-tips-inject",
+          "installedAt": "2026-03-11T19:28:27.280Z",
+          "hooks": [
+            "empo-tips-inject"
+          ]
+        }
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "open",
+      "botToken": "8478596151:AAGLoQUYYXrppaVC0fa6MwsssO6qo6EryiE",
+      "groups": {
+        "-5193178027": {
+          "requireMention": false
+        },
+        "-5076389488": {
+          "requireMention": false
+        },
+        "-1003630621992": {
+          "requireMention": false
+        },
+        "-1003708693538": {
+          "requireMention": false
+        }
+      },
+      "allowFrom": [
+        "*"
+      ],
+      "groupAllowFrom": [
+        "*"
+      ],
+      "groupPolicy": "open",
+      "streaming": "partial"
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "31eca09be53e6bc741d0fef3f20d29720beda1b7e4821b9a"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "contacts.add",
+        "calendar.add",
+        "reminders.add",
+        "sms.send"
+      ]
+    }
+  },
+  "memory": {
+    "citations": "auto"
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    }
+  },
+  "plugins": {
+    "allow": [
+      "lossless-claw",
+      "memory-lancedb-pro",
+      "telegram"
+    ],
+    "slots": {
+      "contextEngine": "lossless-claw"
+    },
+    "entries": {
+      "telegram": {
+        "enabled": true
+      },
+      "lossless-claw": {
+        "enabled": true
+      },
+      "memory-lancedb-pro": {
+        "enabled": false
+      },
+      "llm-task": {
+        "enabled": false
+      },
+      "acpx": {
+        "enabled": false
+      },
+      "memory-lancedb": {
+        "enabled": false
+      },
+      "copilot-proxy": {
+        "enabled": false
+      }
+    },
+    "installs": {
+      "lossless-claw": {
+        "source": "npm",
+        "spec": "@martian-engineering/lossless-claw",
+        "installPath": "/Users/renatobreia/.openclaw/extensions/lossless-claw",
+        "version": "0.2.8",
+        "resolvedName": "@martian-engineering/lossless-claw",
+        "resolvedVersion": "0.2.8",
+        "resolvedSpec": "@martian-engineering/lossless-claw@0.2.8",
+        "integrity": "sha512-GnxqBICpy8ysOOl+TsvSPyHv50xuXxGuJF8A6qGnxGqUPNEa23xiJpbLKmkoGxvr30g7wpl0pk5Ff1RbchpM2w==",
+        "shasum": "377bcb51ce4e7c5c66f1e0d6ef3afe4e4da96e4d",
+        "resolvedAt": "2026-03-11T18:01:00.669Z",
+        "installedAt": "2026-03-11T18:01:17.517Z"
+      }
+    }
+  }
+}

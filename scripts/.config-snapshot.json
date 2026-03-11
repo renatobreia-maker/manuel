@@ -1,0 +1,55 @@
+{
+  "created_at": "2026-03-11T20:55:46Z",
+  "openclaw": {
+    "auth_profiles": {
+      "anthropic:claude-cli": {
+        "provider": "anthropic",
+        "mode": "oauth"
+      }
+    },
+    "telegram_dmPolicy": "open",
+    "telegram_allowFrom": [
+      "*"
+    ],
+    "telegram_groupAllowFrom": [
+      "*"
+    ],
+    "telegram_groupPolicy": "open",
+    "telegram_streaming": "partial",
+    "cli_reliability": {
+      "watchdog": {
+        "fresh": {
+          "noOutputTimeoutMs": 600000
+        },
+        "resume": {
+          "noOutputTimeoutMs": 600000
+        }
+      }
+    },
+    "model_primary": "claude-cli/sonnet-4.6",
+    "telegram_groups": {
+      "-5193178027": {
+        "requireMention": false
+      },
+      "-5076389488": {
+        "requireMention": false
+      },
+      "-1003630621992": {
+        "requireMention": false
+      },
+      "-1003708693538": {
+        "requireMention": false
+      }
+    },
+    "tts_auto": "off"
+  },
+  "auth_profiles_json": {
+    "profiles": {
+      "anthropic:claude-cli": {
+        "type": "token",
+        "provider": "anthropic",
+        "token": "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"
+      }
+    }
+  }
+}

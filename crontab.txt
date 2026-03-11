@@ -1,0 +1,2 @@
+*/2 * * * * /Users/renatobreia/.openclaw/scripts/gateway-watchdog.sh
+0 */6 * * * /Users/renatobreia/.openclaw/scripts/token-refresh.sh
