@@ -1,0 +1,49 @@
+RENDA FIXA BRASIL - DETALHAMENTO
+Data de referencia:,12/03/2026
+
+POS-FIXADO (CDI) - R$ 3,221,704.08
+Produto,Emissor,Instituicao,Taxa,Vencimento,Valor Bruto BRL
+BTG Tesouro Selic FIRFRefDI,BTG,BTG,D+0,D+0,"384,262.24"
+BTG Digital Tesouro Selic Simples FIRF,BTG,BTG,D+0,D+0,"104,878.26"
+BTG CDB Plus FIRF CrPr,BTG,BTG,D+0,D+0,"217,801.34"
+CDB,Banco BTG Pactual,BTG,CDI,07/12/26,"273,775.90"
+CDB,Banco BTG Pactual,BTG,CDI,15/09/27,"32,104.29"
+CDB,Banco BTG Pactual,BTG,CDI,20/12/27,"9,772.92"
+CDB,Banco BTG Pactual,BTG,CDI,16/09/27,"64,173.18"
+CDB,Banco BTG Pactual,BTG,CDI,02/02/28,"101,443.30"
+CDB,Banco BMG,BTG,110.70% CDI,01/10/29,"40,889.87"
+CDB,Banco BMG,BTG,109.20% CDI,01/09/28,"9,437.86"
+LCA,Banco Coop. Sicoob,BTG,95% CDI,31/03/26,"33,736.49"
+LCA,Banco BTG Pactual,BTG,93% CDI,29/07/27,"280,704.97"
+LCA,Banco Coop. Sicoob,BTG,95% CDI,30/06/27,"248,948.32"
+LCA,Banco Coop. Sicoob,BTG,95% CDI,24/03/26,"22,547.18"
+LCA,Banco ABC Brasil,BTG,91.50% CDI,01/12/27,"206,604.43"
+LCA,Banco Rabobank,BTG,94.25% CDI,25/08/27,"38,675.50"
+LCI,Caixa Economica Federal,BTG,92.76% CDI,29/03/27,"283,676.65"
+LCI,Caixa Economica Federal,BTG,12.35% a.a.,25/01/27,"1,015,780.47"
+LCA,Itau Unibanco,Itau,90.75% CDI,25/05/26,"139,620.99"
+LCA,Itau Unibanco,Itau,12.46% a.d.,10/08/26,"131,278.37"
+LCA,Itau Unibanco,Itau,96.50% DI,16/03/26,"31,798.26"
+LCA,Itau Unibanco,Itau,91.75% CDI,15/05/28,"27,795.28"
+CDB,Itau Unibanco,Itau,100% CDI,04/12/30,"258,433.03"
+CDB,Itau Unibanco,Itau,100% CDI,27/11/30,"193,257.17"
+Subtotal Pos-fixado,,,,,,"3,221,704.08"
+
+PRE-FIXADO - R$ 2,071,853.49
+Produto,Emissor,Instituicao,Taxa,Vencimento,Valor Bruto BRL
+LTN,BACEN,BTG,13.69% a.a.,01/01/32,"924,794.65"
+LCI,Itau Unibanco,Itau,91.75% CDI,24/04/28,"67,196.86"
+LCI,Itau Unibanco,Itau,91.75% CDI,03/04/28,"56,322.11"
+LCI,Itau Unibanco,Itau,91.75% CDI,03/06/27,"93,847.68"
+Subtotal Pre-fixado,,,,,,"2,071,853.49"
+
+IPCA+ (INFLACAO) - R$ 390,416.28
+Produto,Emissor,Instituicao,Taxa,Vencimento,Valor Bruto BRL
+CRA,Caramuru,BTG,IPCA + 7.44%,16/07/29,"84,832.64"
+CRA,FS Bio,BTG,IPCA + 7.68%,15/05/29,"171,077.44"
+CRA,Minerva Foods,BTG,IPCA + 7.14%,17/04/28,"36,488.57"
+CRI,Grupo Hapvida,BTG,IPCA + 8.36%,15/12/31,"71,366.72"
+Debenture,Engie Brasil Energia,BTG,IPCA + 7.25%,15/01/32,"26,650.91"
+Subtotal IPCA+,,,,,,"390,416.28"
+
+TOTAL RENDA FIXA BRASIL,,,,,,"5,683,973.85"

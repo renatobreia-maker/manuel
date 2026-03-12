@@ -1,0 +1,37 @@
+DASHBOARD DE PATRIMONIO - Renato Breia
+Data de referencia:,12/03/2026
+Cambio USD/BRL:,5.15
+
+PATRIMONIO TOTAL
+Regiao,Moeda Original,Valor Original,Valor BRL,%
+Onshore (Brasil),BRL,"14,604,644.57","14,604,644.57",76.7%
+Offshore (Avenue),USD,"862,905.53","4,443,963.48",23.3%
+TOTAL,,,"19,048,608.05",100.0%
+
+ALOCACAO POR CLASSE DE ATIVO
+Classe,Valor BRL,%,Meta %,Desvio
+Renda Variavel Brasil,"8,780,202.25",46.1%,,
+Renda Variavel Global,"2,460,824.71",12.9%,,
+Renda Fixa Pos-fixado (CDI),"3,221,704.08",16.9%,,
+Renda Fixa Pre-fixado,"2,071,853.49",10.9%,,
+Renda Fixa IPCA+,"390,416.28",2.0%,,
+Bonds Globais,"1,735,756.30",9.1%,,
+RF Curto Prazo Global,"247,384.90",1.3%,,
+Multimercado / Retorno Absoluto,"138,795.85",0.7%,,
+Caixa,"6,202.62",0.0%,,
+TOTAL,"19,053,140.48",100.0%,,
+
+EXPOSICAO CAMBIAL
+Moeda,Valor BRL,%
+BRL,"14,604,644.57",76.7%
+USD,"4,443,963.48",23.3%
+
+LIQUIDEZ
+Prazo,Valor BRL,%
+D+0 a D+1,"1,230,773.92",6.5%
+D+2 a D+5,"8,704,636.98",45.7%
+Ate 35 dias,"56,283.67",0.3%
+Ate 1 ano,"1,286,679.83",6.8%
+1 a 5 anos,"2,057,298.51",10.8%
+Acima de 5 anos,"1,268,971.66",6.7%
+Offshore (liquidez variada),"4,443,963.48",23.3%

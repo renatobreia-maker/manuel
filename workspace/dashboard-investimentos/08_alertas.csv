@@ -1,0 +1,25 @@
+ALERTAS E PONTOS DE ATENCAO
+Data de referencia:,12/03/2026
+
+CONCENTRACAO
+Alerta,Descricao,Valor,Impacto
+ALTA CONCENTRACAO,LANS EQUITIES representa 45.5% do patrimonio total,"8,672,839",Risco de concentracao em um unico fundo de acoes BR
+TOP 1 ATIVO,Maior posicao individual = quase metade do patrimonio,,Considerar diversificar gradualmente
+
+VENCIMENTOS PROXIMOS (30 dias)
+Produto,Vencimento,Valor,Acao sugerida
+LCA Itau 96.50% DI,16/03/2026,"31,798.26",Reinvestir - vence em 4 dias
+LCA Sicoob 95% CDI,24/03/2026,"22,547.18",Reinvestir - vence em 12 dias
+
+DIVERSIFICACAO
+Metrica,Atual,Observacao
+Acoes BR vs Total,46.1%,Alta exposicao a acoes Brasil
+RF Brasil vs Total,29.8%,Adequado
+Exposicao USD,23.3%,Razoavel para diversificacao cambial
+Previdencia vs Total,1.3%,Baixo - espaco para aumentar (beneficio fiscal)
+
+RENDA PASSIVA ESTIMADA (prox 12 meses)
+Fonte,Valor Estimado
+Cupons de Bonds (USD),"US$ 14,766"
+Juros RF Brasil (estimativa bruta),"R$ 500,000+"
+Dividendos acoes (variavel),Depende dos ativos no fundo LANS
