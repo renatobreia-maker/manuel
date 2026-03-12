@@ -62,6 +62,11 @@ Lições aprendidas no dia 11/Mar/2026. Custaram um dia inteiro de downtime.
 - Model padrão: claude-cli/sonnet-4.6
 - Workspace: ~/.openclaw/workspace
 
+### Backup & Git
+- Repo: https://github.com/renatobreia-maker/manuel
+- Backup automático a cada 3h (cron) → push pro GitHub
+- Diretório: ~/.openclaw/backup
+
 ### Plugins
 - memory-lancedb-pro: embedder.ts editado pra Voyage AI (non-OpenAI provider detection)
 - qmd: instalado em /usr/local/bin/qmd
