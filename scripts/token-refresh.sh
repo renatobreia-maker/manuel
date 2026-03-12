@@ -1,8 +1,12 @@
 #!/bin/bash
-# OpenClaw Token Refresh
+# OpenClaw Token Refresh v2
 # Usa o Claude CLI para forçar refresh do OAuth token antes de expirar.
 # O CLI faz refresh automaticamente quando detecta token expirado.
-# Depois atualiza o plist do gateway com o novo token.
+# Depois atualiza o plist, auth-profiles.json e config snapshot.
+#
+# NOTA: O macOS trava o login keychain quando a tela bloqueia.
+# Este script lida com keychain travado lendo o token do auth-profiles.json
+# como fallback, e usando o CLI para forçar refresh quando possível.
 #
 # Crontab: 0 */6 * * * ~/.openclaw/scripts/token-refresh.sh
 
@@ -14,6 +18,7 @@ KEYCHAIN_ACCOUNT="renatobreia"
 SECURITY="/usr/bin/security"
 AUTH_PROFILES="$HOME/.openclaw/agents/main/agent/auth-profiles.json"
 CONFIG_SNAPSHOT="$HOME/.openclaw/scripts/.config-snapshot.json"
+TOKEN_CACHE="$HOME/.openclaw/scripts/.token-cache.json"
 
 mkdir -p "$(dirname "$LOG")"
 
@@ -21,52 +26,104 @@ timestamp() {
   date "+%Y-%m-%d %H:%M:%S"
 }
 
-# 1. Check current token expiry
+# =====================================================
+# 1. Tentar ler token do keychain
+# =====================================================
 CURRENT_DATA=$($SECURITY find-generic-password -s "$KEYCHAIN_SERVICE" -a "$KEYCHAIN_ACCOUNT" -w 2>/dev/null)
-if [ -z "$CURRENT_DATA" ]; then
-  echo "$(timestamp) [ERROR] No token data in keychain" >> "$LOG"
-  exit 1
+KEYCHAIN_OK=false
+
+if [ -n "$CURRENT_DATA" ]; then
+  KEYCHAIN_OK=true
+  EXPIRES_AT=$(echo "$CURRENT_DATA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['claudeAiOauth']['expiresAt'])" 2>/dev/null)
+  CURRENT_TOKEN=$(echo "$CURRENT_DATA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['claudeAiOauth']['accessToken'])" 2>/dev/null)
+
+  # Salvar cache local para quando keychain estiver travado
+  echo "$CURRENT_DATA" > "$TOKEN_CACHE"
+  chmod 600 "$TOKEN_CACHE"
+else
+  echo "$(timestamp) [WARN] Keychain locked/inaccessible. Trying cache..." >> "$LOG"
+
+  # Fallback 1: token cache local
+  if [ -f "$TOKEN_CACHE" ]; then
+    CURRENT_DATA=$(cat "$TOKEN_CACHE" 2>/dev/null)
+    EXPIRES_AT=$(echo "$CURRENT_DATA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['claudeAiOauth']['expiresAt'])" 2>/dev/null)
+    CURRENT_TOKEN=$(echo "$CURRENT_DATA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['claudeAiOauth']['accessToken'])" 2>/dev/null)
+    echo "$(timestamp) [INFO] Using cached token data" >> "$LOG"
+  # Fallback 2: auth-profiles.json
+  elif [ -f "$AUTH_PROFILES" ]; then
+    CURRENT_TOKEN=$(python3 -c "
+import json
+with open('$AUTH_PROFILES') as f:
+    auth = json.load(f)
+print(auth.get('profiles',{}).get('anthropic:claude-cli',{}).get('token',''))
+" 2>/dev/null)
+    EXPIRES_AT=""
+    echo "$(timestamp) [INFO] Using token from auth-profiles.json (no expiry info)" >> "$LOG"
+  fi
+
+  if [ -z "$CURRENT_TOKEN" ]; then
+    echo "$(timestamp) [ERROR] Cannot read token from any source (keychain locked, no cache, no auth-profiles)" >> "$LOG"
+    exit 1
+  fi
 fi
 
-EXPIRES_AT=$(echo "$CURRENT_DATA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['claudeAiOauth']['expiresAt'])" 2>/dev/null)
+# =====================================================
+# 2. Verificar expiração
+# =====================================================
 NOW_MS=$(python3 -c "import time; print(int(time.time()*1000))")
-REMAINING_MS=$((EXPIRES_AT - NOW_MS))
-REMAINING_HOURS=$((REMAINING_MS / 3600000))
 
-echo "$(timestamp) [INFO] Token expires in ${REMAINING_HOURS}h (${REMAINING_MS}ms)" >> "$LOG"
+if [ -n "$EXPIRES_AT" ] && [ "$EXPIRES_AT" -gt 0 ] 2>/dev/null; then
+  REMAINING_MS=$((EXPIRES_AT - NOW_MS))
+  REMAINING_HOURS=$((REMAINING_MS / 3600000))
+  echo "$(timestamp) [INFO] Token expires in ${REMAINING_HOURS}h (${REMAINING_MS}ms)" >> "$LOG"
 
-# 2. If more than 2 hours remaining, skip refresh
-if [ "$REMAINING_MS" -gt 7200000 ]; then
-  echo "$(timestamp) [OK] Token still valid (${REMAINING_HOURS}h remaining), skipping refresh" >> "$LOG"
-  exit 0
+  # Se mais de 2h restantes, skip
+  if [ "$REMAINING_MS" -gt 7200000 ]; then
+    echo "$(timestamp) [OK] Token still valid (${REMAINING_HOURS}h remaining), skipping refresh" >> "$LOG"
+    exit 0
+  fi
+
+  echo "$(timestamp) [INFO] Token expiring soon or expired (${REMAINING_HOURS}h), forcing refresh..." >> "$LOG"
+else
+  echo "$(timestamp) [INFO] No expiry info available, attempting refresh..." >> "$LOG"
 fi
 
-echo "$(timestamp) [INFO] Token expiring soon (${REMAINING_HOURS}h), forcing refresh..." >> "$LOG"
-
-# 3. Force CLI to refresh by running a simple command
-# Unset CLAUDECODE to avoid nested session error
-RESULT=$(CLAUDECODE="" "$CLAUDE_CLI" -p "say ok" --max-turns 1 2>&1)
+# =====================================================
+# 3. Forçar CLI a fazer refresh
+# =====================================================
+RESULT=$(CLAUDECODE="" "$CLAUDE_CLI" -p "respond with: ok" --max-turns 1 --model sonnet 2>&1)
 EXIT_CODE=$?
 
 if [ $EXIT_CODE -ne 0 ]; then
-  echo "$(timestamp) [ERROR] CLI refresh failed (exit $EXIT_CODE): $RESULT" >> "$LOG"
-
-  # Fallback: try auth login (will fail without browser, but might trigger refresh)
-  CLAUDECODE="" "$CLAUDE_CLI" auth status 2>/dev/null
+  echo "$(timestamp) [ERROR] CLI refresh failed (exit $EXIT_CODE): $(echo "$RESULT" | head -2)" >> "$LOG"
   exit 1
 fi
 
 echo "$(timestamp) [OK] CLI command succeeded, checking for new token..." >> "$LOG"
 
-# 4. Read the (potentially refreshed) token from keychain
+# =====================================================
+# 4. Ler token (possivelmente refreshed) do keychain
+# =====================================================
 NEW_DATA=$($SECURITY find-generic-password -s "$KEYCHAIN_SERVICE" -a "$KEYCHAIN_ACCOUNT" -w 2>/dev/null)
-NEW_TOKEN=$(echo "$NEW_DATA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['claudeAiOauth']['accessToken'])" 2>/dev/null)
-NEW_EXPIRES=$(echo "$NEW_DATA" | python3 -c "
+
+if [ -n "$NEW_DATA" ]; then
+  NEW_TOKEN=$(echo "$NEW_DATA" | python3 -c "import sys,json; print(json.loads(sys.stdin.read())['claudeAiOauth']['accessToken'])" 2>/dev/null)
+  NEW_EXPIRES=$(echo "$NEW_DATA" | python3 -c "
 import sys,json,datetime
 d = json.loads(sys.stdin.read())
 exp = d['claudeAiOauth']['expiresAt']/1000
 print(datetime.datetime.fromtimestamp(exp).strftime('%Y-%m-%d %H:%M'))
 " 2>/dev/null)
+
+  # Atualizar cache local
+  echo "$NEW_DATA" > "$TOKEN_CACHE"
+  chmod 600 "$TOKEN_CACHE"
+else
+  echo "$(timestamp) [WARN] Keychain still locked after CLI refresh. Token may have been refreshed internally by CLI." >> "$LOG"
+  # O CLI refresha internamente mas pode não ter escrito de volta ao keychain
+  # Neste caso, o gateway continua usando o CLI backend que funciona independente
+  exit 0
+fi
 
 if [ -z "$NEW_TOKEN" ]; then
   echo "$(timestamp) [ERROR] Could not read new token from keychain" >> "$LOG"
@@ -75,25 +132,25 @@ fi
 
 echo "$(timestamp) [OK] New token obtained (expires: $NEW_EXPIRES)" >> "$LOG"
 
-# 5. Update the plist with new token
+# =====================================================
+# 5. Atualizar plist com novo token
+# =====================================================
 if [ -f "$PLIST" ]; then
-  # Read current plist token
-  OLD_TOKEN=$(defaults read "$PLIST" EnvironmentVariables 2>/dev/null | grep -A1 "CLAUDE_CODE_OAUTH_TOKEN" | tail -1 | sed 's/.*"\(.*\)".*/\1/' 2>/dev/null)
+  OLD_PLIST_TOKEN=$(defaults read "$PLIST" EnvironmentVariables 2>/dev/null | grep -A1 "CLAUDE_CODE_OAUTH_TOKEN" | tail -1 | sed 's/.*"\(.*\)".*/\1/' 2>/dev/null)
 
-  if [ "$OLD_TOKEN" != "$NEW_TOKEN" ] && [ -n "$NEW_TOKEN" ]; then
-    # Use plutil to update the plist
+  if [ "$OLD_PLIST_TOKEN" != "$NEW_TOKEN" ] && [ -n "$NEW_TOKEN" ]; then
     /usr/libexec/PlistBuddy -c "Set :EnvironmentVariables:CLAUDE_CODE_OAUTH_TOKEN $NEW_TOKEN" "$PLIST" 2>/dev/null
 
     if [ $? -eq 0 ]; then
       echo "$(timestamp) [OK] Plist updated with new token" >> "$LOG"
 
-      # Reload gateway to pick up new env var
+      # Reiniciar gateway para pegar novo env var
       launchctl kickstart -k gui/$(id -u)/ai.openclaw.gateway 2>/dev/null
       if [ $? -eq 0 ]; then
         echo "$(timestamp) [OK] Gateway restarted with new token" >> "$LOG"
       else
-        # Fallback: unload/load
         launchctl unload "$PLIST" 2>/dev/null
+        sleep 2
         launchctl load "$PLIST" 2>/dev/null
         echo "$(timestamp) [OK] Gateway reloaded (fallback)" >> "$LOG"
       fi
@@ -105,11 +162,17 @@ if [ -f "$PLIST" ]; then
   fi
 fi
 
-# 6. Also update the legacy keychain entry (oauth_token)
-$SECURITY delete-generic-password -s "$KEYCHAIN_SERVICE" -a "oauth_token" 2>/dev/null
-$SECURITY add-generic-password -s "$KEYCHAIN_SERVICE" -a "oauth_token" -w "$NEW_TOKEN" 2>/dev/null
+# =====================================================
+# 6. Atualizar keychain entry legado (oauth_token)
+# =====================================================
+if [ "$KEYCHAIN_OK" = true ]; then
+  $SECURITY delete-generic-password -s "$KEYCHAIN_SERVICE" -a "oauth_token" 2>/dev/null
+  $SECURITY add-generic-password -s "$KEYCHAIN_SERVICE" -a "oauth_token" -w "$NEW_TOKEN" 2>/dev/null
+fi
 
-# 7. Update auth-profiles.json with new token
+# =====================================================
+# 7. Atualizar auth-profiles.json
+# =====================================================
 if [ -f "$AUTH_PROFILES" ] && [ -n "$NEW_TOKEN" ]; then
   python3 -c "
 import json
@@ -125,7 +188,9 @@ print('ok')
   fi
 fi
 
-# 8. Update config snapshot to reflect new token
+# =====================================================
+# 8. Atualizar config snapshot
+# =====================================================
 if [ -f "$CONFIG_SNAPSHOT" ] && [ -n "$NEW_TOKEN" ]; then
   python3 -c "
 import json

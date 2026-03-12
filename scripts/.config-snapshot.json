@@ -48,7 +48,7 @@
       "anthropic:claude-cli": {
         "type": "token",
         "provider": "anthropic",
-        "token": "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"
+        "token": "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"
       }
     }
   }
