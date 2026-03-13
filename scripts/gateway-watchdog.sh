@@ -126,14 +126,16 @@ if [ -f "$GATEWAY_LOG" ]; then
 fi
 
 # =====================================================
-# 7. Verificar hot-reload loops no log
+# 7. Verificar hot-reload loops no log (últimos 5 min)
 # =====================================================
 ERR_LOG="$HOME/.openclaw/logs/gateway.err.log"
-if [ -f "$ERR_LOG" ]; then
-  # Contar reloads nos últimos minutos
-  RECENT_RELOADS=$(tail -30 "$ERR_LOG" 2>/dev/null | grep -c "config reload\|config change detected\|hot reload")
+FIVE_MIN_AGO=$(date -v-5M "+%Y-%m-%dT%H:%M" 2>/dev/null || date -d "5 minutes ago" "+%Y-%m-%dT%H:%M" 2>/dev/null)
+
+if [ -f "$ERR_LOG" ] && [ -n "$FIVE_MIN_AGO" ]; then
+  # Filtrar apenas erros dos últimos 5 minutos (por timestamp ISO no log)
+  RECENT_RELOADS=$(awk -v since="$FIVE_MIN_AGO" '$0 >= since' "$ERR_LOG" 2>/dev/null | grep -c "config reload\|config change detected\|hot reload")
   if [ "$RECENT_RELOADS" -gt 3 ]; then
-    echo "$(timestamp) [ALERT] Excessive config reloads detected ($RECENT_RELOADS). Running config guard..." >> "$LOG"
+    echo "$(timestamp) [ALERT] Excessive config reloads detected ($RECENT_RELOADS in last 5min). Running config guard..." >> "$LOG"
     if [ -x "$CONFIG_GUARD" ]; then
       "$CONFIG_GUARD" 2>/dev/null
     fi
@@ -141,16 +143,20 @@ if [ -f "$ERR_LOG" ]; then
 fi
 
 # =====================================================
-# 8. Detectar falhas do Telegram (Network request failed)
+# 8. Detectar falhas do Telegram (últimos 5 min apenas)
 # =====================================================
-if [ -f "$ERR_LOG" ]; then
-  # Contar falhas de rede do Telegram nas últimas linhas
-  TELEGRAM_FAILS=$(tail -30 "$ERR_LOG" 2>/dev/null | grep -c "Network request.*failed\|sendMessage failed\|sendChatAction failed\|Polling stall")
+if [ -f "$ERR_LOG" ] && [ -n "$FIVE_MIN_AGO" ]; then
+  # IMPORTANTE: Só contar erros RECENTES (últimos 5 min) para evitar restart loop
+  # Bug anterior: tail -30 incluía erros antigos → restart → erros permanecem → restart infinito
+  TELEGRAM_FAILS=$(awk -v since="$FIVE_MIN_AGO" '$0 >= since' "$ERR_LOG" 2>/dev/null | grep -c "Network request.*failed\|sendMessage failed\|sendChatAction failed\|Polling stall")
   if [ "$TELEGRAM_FAILS" -gt 3 ]; then
-    echo "$(timestamp) [ALERT] Telegram network failures detected ($TELEGRAM_FAILS). Restarting gateway..." >> "$LOG"
+    echo "$(timestamp) [ALERT] Telegram network failures detected ($TELEGRAM_FAILS in last 5min). Restarting gateway..." >> "$LOG"
     launchctl kickstart -k "gui/$(id -u)/$LABEL" 2>> "$LOG"
     if [ $? -eq 0 ]; then
       echo "$(timestamp) [OK] Gateway restarted to fix Telegram." >> "$LOG"
+      # Rotacionar o err.log após restart para evitar re-trigger
+      mv "$ERR_LOG" "${ERR_LOG}.$(date +%Y%m%d-%H%M%S).bak" 2>/dev/null
+      touch "$ERR_LOG"
     fi
     exit 0
   fi

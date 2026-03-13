@@ -48,6 +48,7 @@
       "heartbeat": {
         "every": "1h"
       },
+      "typingMode": "instant",
       "maxConcurrent": 4,
       "subagents": {
         "maxConcurrent": 8
