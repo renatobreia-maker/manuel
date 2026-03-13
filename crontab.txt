@@ -1,4 +1,4 @@
-*/2 * * * * /Users/renatobreia/.openclaw/scripts/gateway-watchdog.sh
 0 */6 * * * /Users/renatobreia/.openclaw/scripts/token-refresh.sh
 17 */3 * * * bash /Users/renatobreia/.openclaw/scripts/backup.sh >> /Users/renatobreia/.openclaw/logs/backup.log 2>&1
 57 6 * * * /Users/renatobreia/.openclaw/scripts/daily-agenda.sh
+*/2 * * * * /Users/renatobreia/.openclaw/scripts/gateway-watchdog.sh >> /Users/renatobreia/.openclaw/logs/watchdog.log 2>&1

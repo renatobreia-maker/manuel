@@ -51,5 +51,46 @@
         "token": "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"
       }
     }
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "claude-cli/sonnet-4.6"
+      },
+      "workspace": "/Users/renatobreia/.openclaw/workspace",
+      "cliBackends": {
+        "claude-cli": {
+          "command": "/Users/renatobreia/Library/Application Support/Claude/claude-code/2.1.72/claude",
+          "reliability": {
+            "watchdog": {
+              "fresh": {
+                "noOutputTimeoutMs": 600000
+              },
+              "resume": {
+                "noOutputTimeoutMs": 600000
+              }
+            }
+          }
+        }
+      },
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "1h"
+      },
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "heartbeat": {
+        "every": "1h"
+      },
+      "typingMode": "instant",
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    }
   }
 }
