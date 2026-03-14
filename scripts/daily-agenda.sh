@@ -8,6 +8,7 @@ BOT_TOKEN="8478596151:AAGLoQUYYXrppaVC0fa6MwsssO6qo6EryiE"
 CHAT_ID="800405424"
 GOG="/opt/homebrew/bin/gog"
 ACCOUNT="renato.breia@nordresearch.com.br"
+export GOG_KEYRING_PASSWORD="manuel-gog-2026"
 
 LOG="/Users/renatobreia/.openclaw/logs/daily-agenda.log"
 exec >> "$LOG" 2>&1
