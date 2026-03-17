@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1920px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #ffffff;
+    background: linear-gradient(180deg, #0a0e1a 0%, #0d1525 30%, #0a1020 70%, #081018 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 70px;
+  }
+
+  .logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+  }
+
+  .logo-icon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 10px;
+  }
+
+  .logo-text {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: 6px;
+    line-height: 1;
+  }
+
+  .logo-sub {
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 12px;
+    margin-top: 2px;
+    text-transform: lowercase;
+  }
+
+  .title-box {
+    border: 1.5px solid rgba(255,255,255,0.3);
+    padding: 18px 50px;
+    margin-bottom: 55px;
+    text-align: center;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .title-box span {
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 1px;
+  }
+
+  .title-box strong {
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .content {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .description {
+    font-size: 26px;
+    line-height: 1.6;
+    font-weight: 400;
+    margin-bottom: 55px;
+    color: rgba(255,255,255,0.92);
+  }
+
+  .section-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title .arrow {
+    color: #ffffff;
+    font-size: 20px;
+  }
+
+  .bullet-list {
+    list-style: none;
+    margin-bottom: 50px;
+    padding-left: 10px;
+  }
+
+  .bullet-list li {
+    font-size: 25px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    padding-left: 20px;
+    position: relative;
+    color: rgba(255,255,255,0.88);
+  }
+
+  .bullet-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: rgba(255,255,255,0.88);
+  }
+
+  .cta-section {
+    margin-top: auto;
+    text-align: center;
+    padding-top: 40px;
+  }
+
+  .cta-label {
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 22px;
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .cta-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: 40px;
+    padding: 18px 45px;
+    font-size: 26px;
+    font-weight: 600;
+  }
+
+  .cta-box .link-icon {
+    font-size: 22px;
+  }
+
+  /* Subtle blue glow at bottom */
+  body::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    background: radial-gradient(ellipse at center bottom, rgba(20,60,120,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+  <div class="logo-container">
+    <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="46" stroke="white" stroke-width="3"/>
+      <circle cx="50" cy="50" r="38" stroke="white" stroke-width="1.5"/>
+      <!-- Compass points -->
+      <polygon points="50,8 53,44 50,48 47,44" fill="white"/>
+      <polygon points="50,92 47,56 50,52 53,56" fill="white" opacity="0.6"/>
+      <polygon points="8,50 44,47 48,50 44,53" fill="white" opacity="0.6"/>
+      <polygon points="92,50 56,53 52,50 56,47" fill="white"/>
+      <!-- Center -->
+      <circle cx="50" cy="50" r="5" fill="white"/>
+    </svg>
+    <div class="logo-text">NORD</div>
+    <div class="logo-sub">Wealth</div>
+  </div>
+
+  <div class="title-box">
+    <span>VAGA: </span><strong>Social Media</strong>
+  </div>
+
+  <div class="content">
+    <p class="description">
+      Procuro algu&eacute;m para gerenciar meu Instagram (@renatobreia).
+    </p>
+
+    <div class="section-title">
+      <span class="arrow">&#9654;</span> Requisitos:
+    </div>
+    <ul class="bullet-list">
+      <li>Experi&ecirc;ncia com perfis de executivos/founders;</li>
+      <li>Saber editar v&iacute;deo curto (Reels/Stories);</li>
+      <li>Entender de m&eacute;tricas e crescimento no Instagram;</li>
+      <li>Ser proativo &mdash; trazer ideias, n&atilde;o s&oacute; executar.</li>
+    </ul>
+
+    <div class="section-title">
+      <span class="arrow">&#9654;</span> Diferenciais:
+    </div>
+    <ul class="bullet-list">
+      <li>Gostar/entender de finan&ccedil;as e investimentos;</li>
+      <li>Saber usar Canva ou Figma;</li>
+      <li>Disponibilidade para acompanhar eventos.</li>
+    </ul>
+
+    <div class="cta-section">
+      <div class="cta-label">Interessou?</div>
+      <div class="cta-box">
+        <span class="link-icon">&#9993;</span>
+        Manda DM no @renatobreia
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
