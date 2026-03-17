@@ -7,21 +7,20 @@ set -euo pipefail
 BOT_TOKEN="8478596151:AAGLoQUYYXrppaVC0fa6MwsssO6qo6EryiE"
 CHAT_ID="800405424"
 GOG="/opt/homebrew/bin/gog"
-ACCOUNT="renato.breia@nordresearch.com.br"
+ACCOUNT_NORD="renato.breia@nordresearch.com.br"
+ACCOUNT_GMAIL="renatobreia@gmail.com"
 export GOG_KEYRING_PASSWORD="manuel-gog-2026"
 
 LOG="/Users/renatobreia/.openclaw/logs/daily-agenda.log"
 exec >> "$LOG" 2>&1
 echo "--- $(date '+%Y-%m-%d %H:%M:%S') ---"
 
-# Fetch events for next 7 days (plain TSV: ID\tSTART\tEND\tSUMMARY)
-RAW=$("$GOG" cal list --days=7 -a "$ACCOUNT" -p --max=100 --no-input 2>&1) || {
-  echo "ERRO: gog falhou: $RAW"
-  exit 1
-}
+# Fetch events from both calendars (Nord + Gmail)
+RAW_NORD=$("$GOG" cal list --days=7 -a "$ACCOUNT_NORD" -p --max=100 --no-input 2>&1) || RAW_NORD=""
+RAW_GMAIL=$("$GOG" cal list --days=7 -a "$ACCOUNT_GMAIL" -p --max=100 --no-input 2>&1) || RAW_GMAIL=""
 
-# Skip header line, sort by start time
-EVENTS=$(echo "$RAW" | tail -n +2 | sort -t$'\t' -k2,2)
+# Combine both, skip headers, sort by start time, remove duplicates
+EVENTS=$(printf "%s\n%s" "$RAW_NORD" "$RAW_GMAIL" | grep -v "^ID" | grep -v "^$" | sort -t$'\t' -k2,2 | awk -F'\t' '!seen[$4]++')
 
 if [ -z "$EVENTS" ]; then
   MSG="Bom dia, Renato! ☀️
