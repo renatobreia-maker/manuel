@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 800px;
+  height: 800px;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Clean gradient background matching Nord brand colors */
+.bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #091b30 0%, #0e2a4a 30%, #153d68 60%, #1a4a7a 80%, #163a65 100%);
+}
+
+/* Content */
+.content {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Compass SVG */
+.compass {
+  margin-right: 8px;
+}
+
+.nord-text {
+  font-size: 110px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 4px;
+  line-height: 1;
+}
+
+.ia-text {
+  font-size: 110px;
+  font-weight: 800;
+  color: #00e5a0;
+  letter-spacing: 4px;
+  line-height: 1;
+}
+
+.wealth-text {
+  font-size: 24px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 16px;
+  margin-top: 8px;
+  margin-left: 120px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-top: 40px;
+}
+
+/* Tech elements */
+.dot {
+  position: absolute;
+  width: 4px; height: 4px;
+  background: rgba(0, 229, 160, 0.2);
+  border-radius: 50%;
+  z-index: 5;
+}
+.dot::after {
+  content: '';
+  position: absolute;
+  top: -5px; left: -5px;
+  width: 14px; height: 14px;
+  border: 1px solid rgba(0, 229, 160, 0.08);
+  border-radius: 50%;
+}
+.d1 { top: 22%; left: 10%; }
+.d2 { top: 18%; right: 15%; }
+.d3 { top: 75%; left: 18%; }
+.d4 { top: 80%; right: 10%; }
+.d5 { top: 40%; left: 5%; }
+.d6 { top: 60%; right: 8%; }
+
+.trace {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,229,160,0.06), transparent);
+  z-index: 5;
+}
+.tr1 { top: 22%; left: 0; width: 18%; }
+.tr2 { top: 80%; right: 0; width: 20%; }
+.tr3 { top: 75%; left: 10%; width: 25%; }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="content">
+  <div class="logo-row">
+    <!-- Compass -->
+    <svg class="compass" width="95" height="95" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="50" fill="none" stroke="white" stroke-width="4" opacity="0.9"/>
+      <!-- Opening at top -->
+      <path d="M 60 10 A 50 50 0 0 1 60 10" fill="none" stroke="white" stroke-width="4"/>
+      <!-- Needle up -->
+      <polygon points="60,8 52,56 60,48 68,56" fill="white" opacity="0.95"/>
+      <!-- Needle down -->
+      <polygon points="60,112 52,64 60,72 68,64" fill="white" opacity="0.45"/>
+      <!-- Left -->
+      <polygon points="8,60 56,52 48,60 56,68" fill="white" opacity="0.35"/>
+      <!-- Right -->
+      <polygon points="112,60 64,52 72,60 64,68" fill="white" opacity="0.35"/>
+      <!-- Center -->
+      <circle cx="60" cy="60" r="3.5" fill="white"/>
+    </svg>
+    <span class="nord-text">NORD</span>
+    <span class="ia-text">I.A.</span>
+  </div>
+  <div class="wealth-text">W e a l t h</div>
+  <div class="subtitle">Intelig&ecirc;ncia Artificial</div>
+</div>
+
+<div class="dot d1"></div>
+<div class="dot d2"></div>
+<div class="dot d3"></div>
+<div class="dot d4"></div>
+<div class="dot d5"></div>
+<div class="dot d6"></div>
+<div class="trace tr1"></div>
+<div class="trace tr2"></div>
+<div class="trace tr3"></div>
+
+</body>
+</html>

@@ -25,7 +25,7 @@
       "workspace": "/Users/renatobreia/.openclaw/workspace",
       "cliBackends": {
         "claude-cli": {
-          "command": "/Users/renatobreia/Library/Application Support/Claude/claude-code/2.1.72/claude",
+          "command": "/Users/renatobreia/Library/Application Support/Claude/claude-code/2.1.74/claude",
           "reliability": {
             "watchdog": {
               "fresh": {
