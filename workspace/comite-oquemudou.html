@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    padding: 0;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 15mm 18mm 15mm 18mm;
+    position: relative;
+    background: #0d1117;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #30363d;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #58a6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: #58a6ff;
+  }
+
+  .header-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .header-title span {
+    color: #58a6ff;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .header-right {
+    text-align: right;
+  }
+
+  .header-month {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3dd68c;
+  }
+
+  .header-sub {
+    font-size: 9px;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #3dd68c;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 10px 0 5px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #21262d;
+  }
+
+  .section-title .flag {
+    font-size: 14px;
+    margin-left: 6px;
+  }
+
+  /* Bullet items */
+  .bullet-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 4px 0;
+  }
+
+  .bullet-list li {
+    padding: 2px 0 2px 16px;
+    position: relative;
+    font-size: 10.5px;
+    color: #c9d1d9;
+    line-height: 1.45;
+  }
+
+  .bullet-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #58a6ff;
+    font-size: 11px;
+  }
+
+  .bullet-list li strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .highlight-green { color: #3dd68c; font-weight: 600; }
+  .highlight-red { color: #f85149; font-weight: 600; }
+  .highlight-blue { color: #58a6ff; font-weight: 600; }
+  .highlight-yellow { color: #d29922; font-weight: 600; }
+
+  .tag-new {
+    background: #1f6feb;
+    color: #fff;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 4px;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0 4px 0;
+    font-size: 10px;
+  }
+
+  th {
+    background: #161b22;
+    color: #8b949e;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 8.5px;
+    letter-spacing: 0.8px;
+    padding: 4px 8px;
+    text-align: left;
+    border-bottom: 1px solid #30363d;
+  }
+
+  td {
+    padding: 3px 8px;
+    border-bottom: 1px solid #21262d;
+    color: #c9d1d9;
+  }
+
+  tr:hover { background: #161b22; }
+
+  .arrow-up { color: #3dd68c; font-weight: 700; }
+  .arrow-down { color: #f85149; font-weight: 700; }
+
+  /* Talking points */
+  .talking-point {
+    background: #161b22;
+    border-left: 3px solid #58a6ff;
+    padding: 5px 10px;
+    margin: 3px 0;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .talking-point .question {
+    font-weight: 700;
+    color: #58a6ff;
+    font-size: 10px;
+    margin-bottom: 1px;
+  }
+
+  .talking-point .answer {
+    color: #c9d1d9;
+    font-size: 9.5px;
+    line-height: 1.35;
+  }
+
+  /* Footer */
+  .footer {
+    position: absolute;
+    bottom: 8mm;
+    left: 20mm;
+    right: 20mm;
+    text-align: center;
+    font-size: 8.5px;
+    color: #f85149;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding-top: 8px;
+    border-top: 1px solid #21262d;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo-circle">N</div>
+      <div class="header-title">Comitê de Investimentos <span>— O que mudou</span></div>
+    </div>
+    <div class="header-right">
+      <div class="header-month">MAR/26</div>
+      <div class="header-sub">vs. Fevereiro 2026</div>
+    </div>
+  </div>
+
+  <!-- CENÁRIO INTERNACIONAL -->
+  <div class="section-title">Cenário Internacional <span class="flag">🇺🇸</span></div>
+  <ul class="bullet-list">
+    <li><strong>S&P 500</strong> reverteu: de <span class="highlight-green">+1,4%</span> (jan) para <span class="highlight-red">-0,9%</span> (fev). Acumula apenas +0,5% no ano</li>
+    <li><strong>Renda fixa EUA</strong> ganhou tração: Bloomberg US Aggregate <span class="highlight-green">+1,5%</span> no mês (vs +0,2% em jan)</li>
+    <li><span class="tag-new">NOVO</span><strong>Tensões EUA-Irã</strong> — Oriente Médio de volta ao radar. Brent <span class="highlight-red">+17%</span>, DXY <span class="highlight-red">+2,2%</span>. Nossa leitura: <strong>movimento pontual</strong>, sem mudança estrutural</li>
+    <li><strong>GDPNow</strong> revisado para baixo (~4% → ~3%), reforçando desaceleração gradual nos EUA</li>
+  </ul>
+
+  <!-- CENÁRIO LOCAL -->
+  <div class="section-title">Cenário Local <span class="flag">🇧🇷</span></div>
+  <ul class="bullet-list">
+    <li><span class="tag-new">NOVO</span><strong>Selic mantida em 15%</strong> — BC em postura dura, mas sinalizando corte possivelmente já em março</li>
+    <li>Mercado precifica Selic terminal entre <span class="highlight-blue">12,0% e 12,6%</span></li>
+    <li><span class="tag-new">NOVO</span><strong>CAGED: -618 mil vagas</strong> — desaceleração do mercado de trabalho se confirma</li>
+    <li><strong>IBC-Br</strong> aponta atividade econômica claramente em queda</li>
+    <li>Fluxo estrangeiro continua sustentando ativos locais (câmbio apreciado + bolsa)</li>
+    <li>IPCA+ 10 anos em <span class="highlight-green">7,3%</span> — segue em nível de crise, reforçando convicção nos indexados</li>
+  </ul>
+
+  <!-- MUDANÇAS NA ALOCAÇÃO -->
+  <div class="section-title">Mudanças na Alocação</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Classe</th>
+        <th>Perfil</th>
+        <th>Fev</th>
+        <th></th>
+        <th>Mar</th>
+        <th>Comentário</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Ações Local</strong></td>
+        <td>Moderado</td>
+        <td>9%</td>
+        <td class="arrow-down">↓</td>
+        <td><strong>8%</strong></td>
+        <td>ERP no menor nível histórico</td>
+      </tr>
+      <tr>
+        <td><strong>Ações Internacional</strong></td>
+        <td>Moderado</td>
+        <td>6%</td>
+        <td class="arrow-up">↑</td>
+        <td><strong>7%</strong></td>
+        <td>Diversificação geográfica</td>
+      </tr>
+      <tr>
+        <td><strong>Indexado à Inflação</strong></td>
+        <td>Agressivo</td>
+        <td>14%</td>
+        <td class="arrow-up">↑</td>
+        <td><strong>15%</strong></td>
+        <td>Principal convicção — IPCA+ em crise</td>
+      </tr>
+      <tr>
+        <td><strong>Total em Dólar</strong></td>
+        <td>Moderado</td>
+        <td>12%</td>
+        <td class="arrow-up">↑</td>
+        <td><strong>14%</strong></td>
+        <td>Hedge eleitoral + geopolítico</td>
+      </tr>
+      <tr>
+        <td><strong>Total em Dólar</strong></td>
+        <td>Agressivo</td>
+        <td>22%</td>
+        <td class="arrow-up">↑</td>
+        <td><strong>25%</strong></td>
+        <td>Idem</td>
+      </tr>
+      <tr>
+        <td><strong>Ações Total</strong></td>
+        <td>Agressivo</td>
+        <td>34%</td>
+        <td class="arrow-down">↓</td>
+        <td><strong>33%</strong></td>
+        <td>Leve redução tática</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- RESULTADOS -->
+  <div class="section-title">Resultados Acumulados (até Jan/26)</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Portfólio</th>
+        <th>Fev</th>
+        <th>Mar</th>
+        <th>Diferença</th>
+        <th>vs CDI</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>01 — Conservador</strong></td>
+        <td>13,1%</td>
+        <td class="highlight-green">15,3%</td>
+        <td class="arrow-up">+2,2pp</td>
+        <td>Acima</td>
+      </tr>
+      <tr>
+        <td><strong>02 — Moderado</strong></td>
+        <td>14,6%</td>
+        <td class="highlight-green">18,5%</td>
+        <td class="arrow-up">+3,9pp</td>
+        <td>Acima</td>
+      </tr>
+      <tr>
+        <td><strong>03 — Sofisticado</strong></td>
+        <td>15,0%</td>
+        <td class="highlight-green">19,2%</td>
+        <td class="arrow-up">+4,2pp</td>
+        <td>Acima</td>
+      </tr>
+      <tr>
+        <td><strong>04 — Agressivo</strong></td>
+        <td>16,0%</td>
+        <td class="highlight-green">21,5%</td>
+        <td class="arrow-up">+5,5pp</td>
+        <td>Acima</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TALKING POINTS -->
+  <div class="section-title">Talking Points — Reuniões com Clientes</div>
+
+  <div class="talking-point">
+    <div class="question">"Por que reduziram ações Brasil?"</div>
+    <div class="answer">Equity Risk Premium no menor nível histórico após rally forte. Preferimos migrar para NTN-Bs e FIIs, que estão mais descontados e com melhor relação risco-retorno neste momento do ciclo.</div>
+  </div>
+
+  <div class="talking-point">
+    <div class="question">"E as tensões com o Irã?"</div>
+    <div class="answer">Movimento pontual. Petróleo estruturalmente bem abastecido. Prêmio geopolítico tende a se dissipar. Sem mudança na alocação estrutural.</div>
+  </div>
+
+  <div class="talking-point">
+    <div class="question">"Quando começa o corte da Selic?"</div>
+    <div class="answer">Mercado precifica início em março. Selic terminal entre 12-12,6%. Nosso posicionamento em IPCA+ captura a normalização monetária ao longo de 2026.</div>
+  </div>
+
+  <div class="talking-point">
+    <div class="question">"Por que aumentaram exposição em dólar?"</div>
+    <div class="answer">Proteção contra risco eleitoral e geopolítico. A maior parte da carteira segue em real — o aumento é de hedge, não de aposta direcional.</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Versão para uso interno Nord Wealth — Não compartilhar com clientes
+  </div>
+
+</div>
+</body>
+</html>
