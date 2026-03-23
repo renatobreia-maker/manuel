@@ -10,7 +10,7 @@
 #
 # Crontab: 0 */6 * * * ~/.openclaw/scripts/token-refresh.sh
 
-CLAUDE_CLI="$(ls -d "/Users/renatobreia/Library/Application Support/Claude/claude-code/"*/claude 2>/dev/null | sort -V | tail -1)"
+CLAUDE_CLI="/Users/renatobreia/.openclaw/scripts/claude-latest.sh"
 PLIST="$HOME/Library/LaunchAgents/ai.openclaw.gateway.plist"
 LOG="$HOME/.openclaw/logs/token-refresh.log"
 KEYCHAIN_SERVICE="Claude Code-credentials"
