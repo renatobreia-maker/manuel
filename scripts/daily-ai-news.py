@@ -16,7 +16,8 @@ from urllib.parse import quote
 
 # ── Config ──────────────────────────────────────────────────────────────────
 BOT_TOKEN = "8478596151:AAGLoQUYYXrppaVC0fa6MwsssO6qo6EryiE"
-CHAT_ID = "800405424"
+CHAT_ID = "-1003708693538"
+MESSAGE_THREAD_ID = 239
 
 # RSS feeds to check
 FEEDS = [
@@ -167,6 +168,7 @@ def send_telegram(text):
     payload = json.dumps({
         "chat_id": CHAT_ID,
         "text": text,
+        "message_thread_id": MESSAGE_THREAD_ID,
         "disable_web_page_preview": True,
     }).encode("utf-8")
     req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"})
