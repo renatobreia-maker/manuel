@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f1923; color: #e2e8f0; font-family: 'Helvetica Neue', Arial, sans-serif; padding: 30px; width: 1200px; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; color: white; }
+h2 { font-size: 14px; font-weight: 300; color: #64748b; margin-bottom: 30px; }
+h3 { font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #94a3b8; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.card { background: #1e293b; border-radius: 12px; padding: 20px; }
+.chart-container { height: 300px; position: relative; }
+.chart-container-lg { height: 350px; position: relative; }
+.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 20px; }
+.kpi { background: #1e293b; border-radius: 12px; padding: 18px; text-align: center; }
+.kpi .label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.kpi .value { font-size: 28px; font-weight: 700; }
+.kpi .sub { font-size: 11px; color: #64748b; margin-top: 4px; }
+.green { color: #4ade80; }
+.red { color: #f87171; }
+.blue { color: #60a5fa; }
+.yellow { color: #fbbf24; }
+.purple { color: #a78bfa; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px 10px; color: #64748b; border-bottom: 1px solid #334155; font-weight: 600; }
+td { padding: 8px 10px; border-bottom: 1px solid #1e293b; }
+.right { text-align: right; }
+.insight { background: #1e293b; border-left: 3px solid #60a5fa; padding: 15px 20px; border-radius: 0 12px 12px 0; margin-bottom: 15px; font-size: 14px; line-height: 1.6; }
+.insight strong { color: white; }
+.footer { text-align: center; font-size: 11px; color: #475569; margin-top: 25px; padding-top: 15px; border-top: 1px solid #1e293b; }
+</style>
+</head>
+<body>
+
+<h1>Google Trends — Marca Nord (5 anos)</h1>
+<h2>Interesse de busca no Brasil | Mar/2021 a Mar/2026 | Escala relativa 0-100</h2>
+
+<!-- KPIs -->
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="label">Nord Research</div>
+    <div class="value red">-59%</div>
+    <div class="sub">73 → 30 (5 anos)</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Nord Investimentos</div>
+    <div class="value green">+160%</div>
+    <div class="sub">5 → 13 (desde set/24)</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Nord Wealth</div>
+    <div class="value yellow">~estável</div>
+    <div class="sub">0-9 (sem tração)</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Marília Fontes</div>
+    <div class="value blue">estável</div>
+    <div class="sub">média 7 (5 anos)</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Renato Breia</div>
+    <div class="value purple">pico out/21</div>
+    <div class="sub">100 → 2 (declínio)</div>
+  </div>
+</div>
+
+<!-- Main chart -->
+<div class="card" style="margin-bottom: 20px;">
+  <h3>Evolução do Interesse de Busca (5 anos)</h3>
+  <div class="chart-container-lg">
+    <canvas id="chartMain"></canvas>
+  </div>
+</div>
+
+<!-- Insights -->
+<div class="insight">
+  <strong>1. Nord Research está perdendo relevância.</strong> Caiu de 73 (mar/21) para 30 (mar/26) — queda de 59%. A marca histórica da Nord está enfraquecendo nas buscas.
+</div>
+<div class="insight">
+  <strong>2. Nord Investimentos está nascendo.</strong> Apareceu pela primeira vez em set/24 (5) e saltou para 28 em fev/26. É a marca que está ganhando tração — coincide com o reposicionamento da empresa.
+</div>
+<div class="insight">
+  <strong>3. Nord Wealth não tem presença de busca.</strong> Em 5 anos, nunca passou de 9. A marca Wealth existe no mercado (R$ 10 bi AUM) mas não na cabeça do consumidor digital.
+</div>
+<div class="insight">
+  <strong>4. Renato Breia teve um momento viral em out/21-jan/22</strong> (pico 100), provavelmente por aparição em grande mídia. Desde então, voltou a níveis baixos (0-7).
+</div>
+<div class="insight">
+  <strong>5. Marília Fontes é estável mas sub-aproveitada.</strong> Com 261K seguidores no Instagram, o interesse de busca (média 7) não reflete o alcance potencial.
+</div>
+
+<!-- Two charts side by side -->
+<div class="grid-2">
+  <div class="card">
+    <h3>Marcas Nord (Research vs Investimentos vs Wealth)</h3>
+    <div class="chart-container">
+      <canvas id="chartBrands"></canvas>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Líderes (Marília vs Renato)</h3>
+    <div class="chart-container">
+      <canvas id="chartLeaders"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Table: yearly averages -->
+<div class="card" style="margin-top: 20px;">
+  <h3>Média Anual de Interesse de Busca</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Termo</th>
+        <th class="right">2021</th>
+        <th class="right">2022</th>
+        <th class="right">2023</th>
+        <th class="right">2024</th>
+        <th class="right">2025</th>
+        <th class="right">2026 (parcial)</th>
+        <th class="right">Tendência</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Nord Research</td>
+        <td class="right">64</td>
+        <td class="right">59</td>
+        <td class="right">53</td>
+        <td class="right">43</td>
+        <td class="right">30</td>
+        <td class="right">37</td>
+        <td class="right red">↓ Queda contínua</td>
+      </tr>
+      <tr>
+        <td>Nord Investimentos</td>
+        <td class="right">0</td>
+        <td class="right">0</td>
+        <td class="right">0</td>
+        <td class="right">5</td>
+        <td class="right">10</td>
+        <td class="right">18</td>
+        <td class="right green">↑ Crescendo rápido</td>
+      </tr>
+      <tr>
+        <td>Nord Wealth</td>
+        <td class="right">1</td>
+        <td class="right">1</td>
+        <td class="right">3</td>
+        <td class="right">3</td>
+        <td class="right">3</td>
+        <td class="right">3</td>
+        <td class="right yellow">→ Sem tração</td>
+      </tr>
+      <tr>
+        <td>Marília Fontes</td>
+        <td class="right">7</td>
+        <td class="right">10</td>
+        <td class="right">6</td>
+        <td class="right">5</td>
+        <td class="right">5</td>
+        <td class="right">6</td>
+        <td class="right blue">→ Estável</td>
+      </tr>
+      <tr>
+        <td>Renato Breia</td>
+        <td class="right">27</td>
+        <td class="right">24</td>
+        <td class="right">13</td>
+        <td class="right">6</td>
+        <td class="right">3</td>
+        <td class="right">3</td>
+        <td class="right red">↓ Pós-pico em queda</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  Dashboard gerado por M.A.N.U.E.L. | Dados: Google Trends Brasil (Mar/2021–Mar/2026)
+</div>
+
+<script>
+const labels = ['Mar/21','Abr/21','Mai/21','Jun/21','Jul/21','Ago/21','Set/21','Out/21','Nov/21','Dez/21',
+'Jan/22','Fev/22','Mar/22','Abr/22','Mai/22','Jun/22','Jul/22','Ago/22','Set/22','Out/22','Nov/22','Dez/22',
+'Jan/23','Fev/23','Mar/23','Abr/23','Mai/23','Jun/23','Jul/23','Ago/23','Set/23','Out/23','Nov/23','Dez/23',
+'Jan/24','Fev/24','Mar/24','Abr/24','Mai/24','Jun/24','Jul/24','Ago/24','Set/24','Out/24','Nov/24','Dez/24',
+'Jan/25','Fev/25','Mar/25','Abr/25','Mai/25','Jun/25','Jul/25','Ago/25','Set/25','Out/25','Nov/25','Dez/25',
+'Jan/26','Fev/26','Mar/26'];
+
+const nordWealth = [0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,4,0,0,0,5,0,6,0,5,6,0,8,0,0,0,9,6,0,0,5,0,0,7,0,7,0,0,0,0,0,7,0,7,0,6,0,3];
+const nordResearch = [73,67,61,69,79,56,63,62,60,52,74,63,58,57,56,62,54,58,60,51,73,51,67,58,55,55,61,68,55,51,40,36,57,43,38,46,56,47,45,40,48,41,39,30,49,42,32,31,26,25,28,31,26,27,34,23,36,44,47,34,30];
+const nordInvest = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,12,13,13,8,9,6,6,7,0,11,11,10,15,15,15,12,28,13];
+const marilia = [6,5,0,0,0,6,7,0,20,15,16,13,12,7,10,8,11,6,9,7,8,13,10,9,7,10,6,7,6,8,0,5,5,0,0,12,0,6,8,7,6,0,6,7,6,0,6,8,0,6,7,6,7,0,6,0,8,0,6,7,4];
+const renato = [0,0,6,8,9,11,20,100,40,48,89,14,13,23,29,16,23,12,13,24,13,13,35,36,12,27,9,8,10,8,0,8,5,8,5,8,0,7,8,8,9,7,6,0,0,10,8,7,6,0,0,7,12,0,0,0,0,0,7,0,2];
+
+const commonOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { legend: { labels: { color: '#94a3b8', font: { size: 11 } } } },
+  scales: {
+    x: { ticks: { color: '#475569', font: { size: 9 }, maxTicksLimit: 12 }, grid: { color: '#1e293b' } },
+    y: { ticks: { color: '#475569' }, grid: { color: '#1e293b' }, min: 0 }
+  }
+};
+
+// Main chart
+new Chart(document.getElementById('chartMain'), {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [
+      { label: 'Nord Research', data: nordResearch, borderColor: '#f87171', backgroundColor: 'rgba(248,113,113,0.1)', fill: true, tension: 0.3, borderWidth: 2 },
+      { label: 'Nord Investimentos', data: nordInvest, borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)', fill: true, tension: 0.3, borderWidth: 2 },
+      { label: 'Nord Wealth', data: nordWealth, borderColor: '#fbbf24', tension: 0.3, borderWidth: 2 },
+      { label: 'Renato Breia', data: renato, borderColor: '#a78bfa', tension: 0.3, borderWidth: 1.5, borderDash: [4,4] },
+      { label: 'Marília Fontes', data: marilia, borderColor: '#60a5fa', tension: 0.3, borderWidth: 1.5, borderDash: [4,4] }
+    ]
+  },
+  options: { ...commonOptions, scales: { ...commonOptions.scales, y: { ...commonOptions.scales.y, max: 100 } } }
+});
+
+// Brands chart
+new Chart(document.getElementById('chartBrands'), {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [
+      { label: 'Nord Research', data: nordResearch, borderColor: '#f87171', backgroundColor: 'rgba(248,113,113,0.1)', fill: true, tension: 0.3, borderWidth: 2 },
+      { label: 'Nord Investimentos', data: nordInvest, borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)', fill: true, tension: 0.3, borderWidth: 2 },
+      { label: 'Nord Wealth', data: nordWealth, borderColor: '#fbbf24', tension: 0.3, borderWidth: 2 }
+    ]
+  },
+  options: commonOptions
+});
+
+// Leaders chart
+new Chart(document.getElementById('chartLeaders'), {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [
+      { label: 'Renato Breia', data: renato, borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.1)', fill: true, tension: 0.3, borderWidth: 2 },
+      { label: 'Marília Fontes', data: marilia, borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,0.1)', fill: true, tension: 0.3, borderWidth: 2 }
+    ]
+  },
+  options: { ...commonOptions, scales: { ...commonOptions.scales, y: { ...commonOptions.scales.y, max: 100 } } }
+});
+</script>
+
+</body>
+</html>
