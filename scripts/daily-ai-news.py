@@ -48,6 +48,20 @@ LOG_FILE = "/Users/renatobreia/.openclaw/logs/daily-ai-news.log"
 
 # ── Helpers ─────────────────────────────────────────────────────────────────
 
+def shorten_url(url, timeout=5):
+    """Shorten a URL using TinyURL. Returns original URL on failure."""
+    try:
+        api = f"https://tinyurl.com/api-create.php?url={quote(url, safe='')}"
+        req = urllib.request.Request(api, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            short = resp.read().decode("utf-8").strip()
+            if short.startswith("http"):
+                return short
+    except Exception:
+        pass
+    return url
+
+
 def log(msg):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(LOG_FILE, "a") as f:
@@ -155,7 +169,7 @@ def format_message(articles):
                 short_desc += "..."
             msg += f"   {short_desc}\n"
         if art["link"]:
-            msg += f"   🔗 {art['link']}\n"
+            msg += f"   🔗 {shorten_url(art['link'])}\n"
         msg += "\n"
 
     msg += "💡 Dica: responda com o número da notícia para saber mais detalhes."
