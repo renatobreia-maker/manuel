@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.3.8",
-    "lastTouchedAt": "2026-03-12T16:58:36.055Z"
+    "lastTouchedVersion": "2026.3.28",
+    "lastTouchedAt": "2026-03-30T17:36:24.462Z"
   },
   "wizard": {
     "lastRunAt": "2026-03-11T16:55:06.158Z",
@@ -45,10 +45,10 @@
       "compaction": {
         "mode": "safeguard"
       },
+      "typingMode": "instant",
       "heartbeat": {
         "every": "1h"
       },
-      "typingMode": "instant",
       "maxConcurrent": 4,
       "subagents": {
         "maxConcurrent": 8
@@ -209,6 +209,16 @@
   "memory": {
     "citations": "auto"
   },
+  "mcp": {
+    "servers": {
+      "fetch": {
+        "command": "/opt/homebrew/bin/uvx",
+        "args": [
+          "mcp-server-fetch"
+        ]
+      }
+    }
+  },
   "skills": {
     "install": {
       "nodeManager": "npm"
@@ -225,10 +235,12 @@
     },
     "entries": {
       "telegram": {
-        "enabled": true
+        "enabled": true,
+        "config": {}
       },
       "lossless-claw": {
-        "enabled": true
+        "enabled": true,
+        "config": {}
       },
       "memory-lancedb-pro": {
         "enabled": false
