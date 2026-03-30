@@ -3,3 +3,4 @@
 57 6 * * * /Users/renatobreia/.openclaw/scripts/daily-agenda.sh
 */2 * * * * /Users/renatobreia/.openclaw/scripts/gateway-watchdog.sh >> /Users/renatobreia/.openclaw/logs/watchdog.log 2>&1
 0 8 * * 1 /Users/renatobreia/.openclaw/scripts/weekly-jogos.sh
+0 8 * * * /Users/renatobreia/.openclaw/scripts/gog-token-refresh.sh
