@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Opção 2 – Clean Minimal</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; color: #1e293b; padding: 40px; }
+  .header { margin-bottom: 32px; border-bottom: 1px solid #e2e8f0; padding-bottom: 20px; }
+  .header h1 { font-size: 20px; font-weight: 700; color: #0f172a; }
+  .header span { font-size: 12px; color: #94a3b8; letter-spacing: 1px; display: block; margin-top: 4px; }
+  .chart-wrap { background: #fff; border-radius: 16px; padding: 28px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04); }
+  .chart-label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #94a3b8; margin-bottom: 20px; }
+  .divider { width: 32px; height: 3px; background: #2563eb; border-radius: 2px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Pipeline de Negócios</h1>
+  <span>NORD WEALTH · JAN/2025 – MAR/2026</span>
+</div>
+
+<div class="chart-wrap">
+  <div class="chart-label">Volume Mensal (R$ MM)<div class="divider"></div></div>
+  <canvas id="barChart" height="200"></canvas>
+</div>
+
+<div class="chart-wrap">
+  <div class="chart-label">Evolução Temporal<div class="divider"></div></div>
+  <canvas id="lineChart" height="150"></canvas>
+</div>
+
+<script>
+const labels = ['Jan/25','Fev/25','Mar/25','Abr/25','Mai/25','Jun/25','Jul/25','Ago/25','Set/25','Out/25','Nov/25','Dez/25','Jan/26','Fev/26','Mar/26'];
+const d1 = [370,300,250,280,390,420,440,520,540,530,430,420,430,425,445];
+const d2 = [380,280,260,290,360,400,420,500,520,510,200,410,380,405,610];
+const d3 = [280,250,220,260,310,370,390,470,490,470,220,400,365,370,540];
+const d4 = [80,60,70,50,55,90,140,155,195,175,75,85,95,105,115];
+
+const gridColor = 'rgba(226,232,240,0.8)';
+const tickColor = '#94a3b8';
+
+new Chart(document.getElementById('barChart'), {
+  type: 'bar',
+  data: {
+    labels,
+    datasets: [
+      { label: 'Agendados EM', data: d1, backgroundColor: '#2563eb', borderRadius: 4, borderSkipped: false },
+      { label: 'Agendados PARA', data: d2, backgroundColor: '#f97316', borderRadius: 4, borderSkipped: false },
+      { label: 'Realizados', data: d3, backgroundColor: '#f59e0b', borderRadius: 4, borderSkipped: false },
+      { label: 'Fechados', data: d4, backgroundColor: '#16a34a', borderRadius: 4, borderSkipped: false },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#475569', font: { size: 11, weight: '500' }, padding: 24 } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: tickColor, font: { size: 10 } }, border: { color: '#e2e8f0' } },
+      y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 }, callback: v => 'R$' + v + 'MM' }, border: { dash: [4,4], color: 'transparent' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('lineChart'), {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      { label: 'Agendados EM', data: d1, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.06)', fill: true, tension: 0.4, pointRadius: 0, pointHoverRadius: 4, borderWidth: 2.5 },
+      { label: 'Agendados PARA', data: d2, borderColor: '#f97316', backgroundColor: 'transparent', fill: false, tension: 0.4, pointRadius: 0, pointHoverRadius: 4, borderWidth: 2.5 },
+      { label: 'Realizados', data: d3, borderColor: '#f59e0b', backgroundColor: 'transparent', fill: false, tension: 0.4, pointRadius: 0, pointHoverRadius: 4, borderWidth: 2 },
+      { label: 'Fechados', data: d4, borderColor: '#16a34a', backgroundColor: 'transparent', fill: false, tension: 0.4, pointRadius: 0, pointHoverRadius: 4, borderWidth: 2 },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#475569', font: { size: 11, weight: '500' }, padding: 24 } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: tickColor, font: { size: 10 } }, border: { color: '#e2e8f0' } },
+      y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 }, callback: v => 'R$' + v + 'MM' }, border: { color: 'transparent' } }
+    }
+  }
+});
+</script>
+</body>
+</html>

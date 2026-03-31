@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Investimentos — Mar/2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --azul: #0A2463;
+    --azul-medio: #1E4D8C;
+    --azul-claro: #2E86DE;
+    --verde: #27AE60;
+    --vermelho: #E74C3C;
+    --cinza: #F5F7FA;
+    --cinza-texto: #6B7280;
+    --borda: #E5E7EB;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    color: #1F2937;
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── PÁGINA ── */
+  .page {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    padding: 0;
+    page-break-after: always;
+    break-after: page;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── CAPA ── */
+  .cover {
+    background: var(--azul);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 52px;
+    height: 297mm;
+  }
+  .cover-logo { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  .cover-logo span { color: #2E86DE; }
+  .cover-subtitle { font-size: 12px; font-weight: 300; margin-top: 4px; opacity: 0.7; }
+  .cover-title { font-size: 38px; font-weight: 300; line-height: 1.2; margin-top: auto; }
+  .cover-title strong { font-weight: 700; color: #2E86DE; }
+  .cover-meta { margin-top: 40px; }
+  .cover-meta p { font-size: 12px; opacity: 0.7; margin-top: 6px; }
+  .cover-meta strong { font-weight: 600; opacity: 1; }
+  .cover-total-label { font-size: 13px; opacity: 0.6; margin-top: 40px; }
+  .cover-total-value { font-size: 44px; font-weight: 700; color: #2E86DE; margin-top: 6px; }
+  .cover-accent {
+    position: absolute; right: 0; top: 0; bottom: 0;
+    width: 12px;
+    background: linear-gradient(to bottom, #2E86DE 0%, #1E4D8C 50%, #0A2463 100%);
+  }
+
+  /* ── HEADER DE SEÇÃO ── */
+  .section-header {
+    background: var(--azul);
+    color: white;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .section-header h2 { font-size: 14px; font-weight: 600; }
+  .section-header span { font-size: 11px; opacity: 0.7; }
+
+  /* ── CONTEÚDO ── */
+  .content { padding: 24px 32px; }
+
+  /* ── KPI CARDS ── */
+  .kpi-row { display: flex; gap: 12px; margin-bottom: 24px; }
+  .kpi {
+    flex: 1;
+    background: var(--cinza);
+    border-radius: 8px;
+    padding: 16px 18px;
+    border-left: 4px solid var(--azul-claro);
+  }
+  .kpi.negativo { border-left-color: var(--vermelho); }
+  .kpi.positivo { border-left-color: var(--verde); }
+  .kpi-label { font-size: 11px; color: var(--cinza-texto); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-value { font-size: 22px; font-weight: 700; color: var(--azul); margin-top: 4px; }
+  .kpi-value.neg { color: var(--vermelho); }
+  .kpi-value.pos { color: var(--verde); }
+  .kpi-sub { font-size: 11px; color: var(--cinza-texto); margin-top: 2px; }
+
+  /* ── TABELAS ── */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  thead tr { background: var(--azul); color: white; }
+  thead th { padding: 9px 12px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+  thead th:last-child { text-align: right; }
+  tbody tr { border-bottom: 1px solid var(--borda); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:nth-child(even) { background: var(--cinza); }
+  tbody td { padding: 9px 12px; font-size: 12px; }
+  tbody td:last-child { text-align: right; font-weight: 600; }
+  tfoot tr { border-top: 2px solid var(--azul); background: #EBF4FF; }
+  tfoot td { padding: 10px 12px; font-size: 12px; font-weight: 700; color: var(--azul); }
+  tfoot td:last-child { text-align: right; }
+  .up { color: var(--verde); }
+  .down { color: var(--vermelho); }
+  .neutral { color: var(--cinza-texto); }
+
+  /* ── DONUT CHART ── */
+  .chart-row { display: flex; gap: 24px; align-items: center; margin-bottom: 24px; }
+  .chart-wrap { flex-shrink: 0; position: relative; }
+  .chart-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .chart-center-value { font-size: 14px; font-weight: 700; color: var(--azul); }
+  .chart-center-label { font-size: 10px; color: var(--cinza-texto); }
+  .legend { flex: 1; }
+  .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .legend-label { font-size: 12px; color: #374151; flex: 1; }
+  .legend-value { font-size: 12px; font-weight: 600; }
+  .legend-pct { font-size: 11px; color: var(--cinza-texto); margin-left: 4px; }
+
+  /* ── BARRA DE PROGRESSO ── */
+  .bar-row { margin-bottom: 12px; }
+  .bar-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .bar-name { font-size: 12px; font-weight: 500; }
+  .bar-val { font-size: 12px; font-weight: 600; }
+  .bar-track { background: var(--borda); border-radius: 4px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 8px; border-radius: 4px; }
+
+  /* ── PNL DIFF ── */
+  .pnl-diff {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12px; font-weight: 600;
+    padding: 2px 7px; border-radius: 4px;
+  }
+  .pnl-diff.neg { background: #FEE2E2; color: var(--vermelho); }
+  .pnl-diff.pos { background: #D1FAE5; color: var(--verde); }
+
+  /* ── SEÇÃO TÍTULO ── */
+  .section-title {
+    font-size: 13px; font-weight: 700; color: var(--azul);
+    border-bottom: 2px solid var(--azul-claro);
+    padding-bottom: 6px; margin-bottom: 16px; margin-top: 20px;
+    text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  /* ── RODAPÉ ── */
+  .footer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 10px 32px;
+    background: var(--azul);
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    display: flex; justify-content: space-between;
+  }
+
+  /* ── TAG ── */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px; border-radius: 4px;
+    font-size: 10px; font-weight: 600;
+    background: #EBF4FF; color: var(--azul-medio);
+  }
+
+  .divider { border: none; border-top: 1px solid var(--borda); margin: 20px 0; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .note { font-size: 10px; color: var(--cinza-texto); margin-top: 8px; padding: 8px 12px; background: #FFFBEB; border-left: 3px solid #F59E0B; border-radius: 0 4px 4px 0; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ CAPA ══ -->
+<div class="page">
+  <div class="cover">
+    <div>
+      <div class="cover-logo">RENATO<span>.</span>BREIA</div>
+      <div class="cover-subtitle">Relatório Pessoal de Investimentos</div>
+    </div>
+
+    <div>
+      <div class="cover-title">
+        Relatório de<br>
+        Investimentos<br>
+        <strong>Visão 360°</strong>
+      </div>
+      <div class="cover-meta">
+        <p><strong>Período:</strong> 12/03/2026 a 31/03/2026</p>
+        <p><strong>Gerado em:</strong> 31/03/2026</p>
+        <p><strong>Câmbio USD/BRL:</strong> R$ 5,19</p>
+      </div>
+      <div class="cover-total-label">PATRIMÔNIO TOTAL</div>
+      <div class="cover-total-value">R$ 18.803.700</div>
+    </div>
+
+    <div style="font-size:10px; opacity:0.4;">
+      Uso exclusivo. Baseado em dados fornecidos pelo titular em 31/03/2026.
+    </div>
+  </div>
+  <div class="cover-accent"></div>
+</div>
+
+<!-- ════════════════════════════ VISÃO GERAL PATRIMÔNIO ══ -->
+<div class="page">
+  <div class="section-header">
+    <h2>Visão do Patrimônio</h2>
+    <span>Atualização: 31/03/2026</span>
+  </div>
+  <div class="content">
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Patrimônio Total</div>
+        <div class="kpi-value">R$ 18.803.700</div>
+        <div class="kpi-sub">31/Mar/2026</div>
+      </div>
+      <div class="kpi negativo">
+        <div class="kpi-label">Var. período (sem cripto)</div>
+        <div class="kpi-value neg">-R$ 709.663</div>
+        <div class="kpi-sub">12/Mar → 31/Mar · -3,7%</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Câmbio USD/BRL</div>
+        <div class="kpi-value">5,19</div>
+        <div class="kpi-sub">Era 5,15 em 12/Mar</div>
+      </div>
+    </div>
+
+    <!-- DONUT ALOCAÇÃO POR BLOCO -->
+    <div class="section-title">Alocação por Bloco</div>
+    <div class="chart-row">
+      <div class="chart-wrap">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <!-- Onshore 74.6% → 268° -->
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#0A2463" stroke-width="22"
+            stroke-dasharray="268 95" stroke-dashoffset="23" transform="rotate(-90 80 80)"/>
+          <!-- Offshore 22.9% → 83° -->
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#2E86DE" stroke-width="22"
+            stroke-dasharray="83 280" stroke-dashoffset="-245" transform="rotate(-90 80 80)"/>
+          <!-- Cripto 2.5% → 9° -->
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#F59E0B" stroke-width="22"
+            stroke-dasharray="9 354" stroke-dashoffset="-328" transform="rotate(-90 80 80)"/>
+        </svg>
+        <div class="chart-center">
+          <div class="chart-center-value">R$18,8M</div>
+          <div class="chart-center-label">Total</div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0A2463"></div>
+          <div class="legend-label">Onshore BTG + Itaú</div>
+          <div class="legend-value">R$ 14.020.484</div>
+          <div class="legend-pct">74,6%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#2E86DE"></div>
+          <div class="legend-label">Offshore Avenue</div>
+          <div class="legend-value">R$ 4.318.461</div>
+          <div class="legend-pct">22,9%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#F59E0B"></div>
+          <div class="legend-label">Cripto Mercado Bitcoin</div>
+          <div class="legend-value">R$ 464.755</div>
+          <div class="legend-pct">2,5%</div>
+        </div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Bloco</th><th>Moeda</th><th>Valor original</th><th>Valor BRL</th><th>%</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Onshore BTG + Itaú</td><td><span class="tag">BRL</span></td><td>—</td><td>R$ 14.020.484,20</td><td>74,6%</td></tr>
+        <tr><td>Offshore Avenue</td><td><span class="tag">USD</span></td><td>$ 832.073,47</td><td>R$ 4.318.461,31</td><td>22,9%</td></tr>
+        <tr><td>Cripto Mercado Bitcoin</td><td><span class="tag">BRL</span></td><td>—</td><td>R$ 464.754,73</td><td>2,5%</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="3">Total</td><td>R$ 18.803.700,24</td><td>100%</td></tr>
+      </tfoot>
+    </table>
+
+  </div>
+  <div class="footer">
+    <span>Relatório Pessoal — Renato Breia</span>
+    <span>31/03/2026</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ PNL COMPARATIVO ══ -->
+<div class="page">
+  <div class="section-header">
+    <h2>Análise PnL — Período 12/Mar → 31/Mar/2026</h2>
+    <span>19 dias</span>
+  </div>
+  <div class="content">
+
+    <div class="kpi-row">
+      <div class="kpi negativo">
+        <div class="kpi-label">Variação Total (sem cripto)</div>
+        <div class="kpi-value neg">-R$ 709.663</div>
+        <div class="kpi-sub">-3,7% no período</div>
+      </div>
+      <div class="kpi negativo">
+        <div class="kpi-label">Queda Onshore</div>
+        <div class="kpi-value neg">-R$ 584.161</div>
+        <div class="kpi-sub">-4,0% · principal driver: LANS Equities</div>
+      </div>
+      <div class="kpi negativo">
+        <div class="kpi-label">Queda Offshore (USD)</div>
+        <div class="kpi-value neg">-$ 30.833</div>
+        <div class="kpi-sub">-3,6% · câmbio compensou parcialmente</div>
+      </div>
+    </div>
+
+    <div class="section-title">Comparativo por Bloco</div>
+    <table>
+      <thead>
+        <tr><th>Bloco</th><th>12/Mar/2026</th><th>31/Mar/2026</th><th>Variação R$</th><th>Variação %</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Onshore BTG + Itaú</td>
+          <td>R$ 14.604.645</td>
+          <td>R$ 14.020.484</td>
+          <td class="down">-R$ 584.161</td>
+          <td><span class="pnl-diff neg">▼ 4,0%</span></td>
+        </tr>
+        <tr>
+          <td>Offshore Avenue (USD)</td>
+          <td>$ 862.906</td>
+          <td>$ 832.073</td>
+          <td class="down">-$ 30.833</td>
+          <td><span class="pnl-diff neg">▼ 3,6%</span></td>
+        </tr>
+        <tr>
+          <td>Offshore Avenue (BRL)</td>
+          <td>R$ 4.443.963</td>
+          <td>R$ 4.318.461</td>
+          <td class="down">-R$ 125.502</td>
+          <td><span class="pnl-diff neg">▼ 2,8%</span></td>
+        </tr>
+        <tr>
+          <td>Cripto</td>
+          <td class="neutral">n/d</td>
+          <td>R$ 464.755</td>
+          <td class="neutral">—</td>
+          <td class="neutral">—</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total (sem cripto)</td>
+          <td>R$ 19.048.608</td>
+          <td>R$ 18.338.945</td>
+          <td class="down">-R$ 709.663</td>
+          <td><span class="pnl-diff neg">▼ 3,7%</span></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="note">Câmbio subiu de R$ 5,15 → R$ 5,19 no período, amortecendo a queda do offshore em BRL. Sem a variação cambial, a queda offshore seria de aprox. -R$ 158k.</div>
+
+    <div class="section-title" style="margin-top:20px">Onshore — Variação por Estratégia</div>
+
+    <div class="bar-row">
+      <div class="bar-header">
+        <span class="bar-name">Renda Variável (LANS Equities)</span>
+        <span class="bar-val down">-R$ 516.236 <small style="font-weight:400;color:#6B7280">(-5,9%)</small></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:72%;background:#E74C3C"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-header">
+        <span class="bar-name">Pós-fixado</span>
+        <span class="bar-val down">-R$ 72.695 <small style="font-weight:400;color:#6B7280">(-2,3%)</small></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:10%;background:#E74C3C"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-header">
+        <span class="bar-name">Inflação</span>
+        <span class="bar-val down">-R$ 14.242 <small style="font-weight:400;color:#6B7280">(-3,6%)</small></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:2%;background:#E74C3C"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-header">
+        <span class="bar-name">Retorno Absoluto</span>
+        <span class="bar-val down">-R$ 2.593 <small style="font-weight:400;color:#6B7280">(-1,9%)</small></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:1%;background:#E74C3C"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-header">
+        <span class="bar-name">Pré-fixado</span>
+        <span class="bar-val down">-R$ 12.290 <small style="font-weight:400;color:#6B7280">(-0,6%)</small></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:2%;background:#E74C3C"></div></div>
+    </div>
+
+    <table style="margin-top:16px">
+      <thead>
+        <tr><th>Estratégia</th><th>12/Mar</th><th>31/Mar</th><th>Δ R$</th><th>Δ %</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Renda Variável (LANS Equities)</td><td>R$ 8.780.202</td><td>R$ 8.263.966</td><td class="down">-R$ 516.236</td><td><span class="pnl-diff neg">▼ 5,9%</span></td></tr>
+        <tr><td>Pós-fixado</td><td>R$ 3.221.704</td><td>R$ 3.149.009</td><td class="down">-R$ 72.695</td><td><span class="pnl-diff neg">▼ 2,3%</span></td></tr>
+        <tr><td>Pré-fixado</td><td>R$ 2.071.853</td><td>R$ 2.059.563</td><td class="down">-R$ 12.290</td><td><span class="pnl-diff neg">▼ 0,6%</span></td></tr>
+        <tr><td>Inflação</td><td>R$ 390.416</td><td>R$ 376.174</td><td class="down">-R$ 14.242</td><td><span class="pnl-diff neg">▼ 3,6%</span></td></tr>
+        <tr><td>Retorno Absoluto (MM)</td><td>R$ 138.796</td><td>R$ 136.203</td><td class="down">-R$ 2.593</td><td><span class="pnl-diff neg">▼ 1,9%</span></td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td>Total Onshore</td><td>R$ 14.604.645</td><td>R$ 13.984.915</td><td class="down">-R$ 619.730</td><td><span class="pnl-diff neg">▼ 4,2%</span></td></tr>
+      </tfoot>
+    </table>
+
+  </div>
+  <div class="footer">
+    <span>Relatório Pessoal — Renato Breia</span>
+    <span>31/03/2026</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ ONSHORE ══ -->
+<div class="page">
+  <div class="section-header">
+    <h2>Carteira Onshore — BTG + Itaú</h2>
+    <span>Total: R$ 14.020.484,20</span>
+  </div>
+  <div class="content">
+
+    <div class="chart-row">
+      <div class="chart-wrap">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#0A2463" stroke-width="22"
+            stroke-dasharray="213 150" stroke-dashoffset="23" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#2E86DE" stroke-width="22"
+            stroke-dasharray="81 282" stroke-dashoffset="-190" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#27AE60" stroke-width="22"
+            stroke-dasharray="53 310" stroke-dashoffset="-271" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#F59E0B" stroke-width="22"
+            stroke-dasharray="9 354" stroke-dashoffset="-324" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#8B5CF6" stroke-width="22"
+            stroke-dasharray="7 356" stroke-dashoffset="-333" transform="rotate(-90 80 80)"/>
+        </svg>
+        <div class="chart-center">
+          <div class="chart-center-value">R$14,0M</div>
+          <div class="chart-center-label">Onshore</div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0A2463"></div>
+          <div class="legend-label">Renda Variável (Fundos)</div>
+          <div class="legend-value">R$ 8.263.966</div>
+          <div class="legend-pct">59,1%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#2E86DE"></div>
+          <div class="legend-label">Pós-fixado</div>
+          <div class="legend-value">R$ 3.149.009</div>
+          <div class="legend-pct">22,5%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#27AE60"></div>
+          <div class="legend-label">Pré-fixado</div>
+          <div class="legend-value">R$ 2.059.563</div>
+          <div class="legend-pct">14,7%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#F59E0B"></div>
+          <div class="legend-label">Inflação (IPCA+)</div>
+          <div class="legend-value">R$ 376.174</div>
+          <div class="legend-pct">2,7%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#8B5CF6"></div>
+          <div class="legend-label">Retorno Absoluto (MM)</div>
+          <div class="legend-value">R$ 136.203</div>
+          <div class="legend-pct">1,0%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Fundos de Investimento — R$ 8.903.542,89</div>
+    <table>
+      <thead><tr><th>Fundo</th><th>Liquidez</th><th>Cotas</th><th>Saldo Bruto</th></tr></thead>
+      <tbody>
+        <tr><td>LANS EQUITIES FI AÇÕES IE</td><td>D+2</td><td>2.723.502,59</td><td>R$ 8.157.359,80</td></tr>
+        <tr><td>BTG Tesouro Selic FIRFRefDI</td><td>D+0</td><td>78.635,72</td><td>R$ 421.164,70</td></tr>
+        <tr><td>BTG CDB Plus FIRF CrPr</td><td>D+0</td><td>61.696,04</td><td>R$ 219.383,83</td></tr>
+        <tr><td>BTG Digital Tesouro Selic Simples FIRF</td><td>D+0</td><td>53.819,62</td><td>R$ 105.634,56</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="3">Total Fundos</td><td>R$ 8.903.542,89</td></tr></tfoot>
+    </table>
+
+    <div class="section-title">Renda Fixa BTG — Principais Posições</div>
+    <table>
+      <thead><tr><th>Produto / Emissor</th><th>Vencimento</th><th>Taxa</th><th>Saldo Bruto</th></tr></thead>
+      <tbody>
+        <tr><td>LCI — Caixa Econômica Federal</td><td>25/01/27</td><td>12,35% a.a.</td><td>R$ 1.021.900,88</td></tr>
+        <tr><td>LTN — BACEN</td><td>01/01/32</td><td>13,69% a.a.</td><td>R$ 905.515,79</td></tr>
+        <tr><td>LCI — Caixa Econômica Federal</td><td>29/03/27</td><td>92,76% CDI</td><td>R$ 285.552,94</td></tr>
+        <tr><td>LCA — BTG Pactual</td><td>29/07/27</td><td>93,00% CDI</td><td>R$ 282.563,55</td></tr>
+        <tr><td>CDB — BTG Pactual</td><td>07/12/26</td><td>CDI</td><td>R$ 275.725,61</td></tr>
+        <tr><td>LCA — Sicoob</td><td>30/06/27</td><td>95,00% CDI</td><td>R$ 250.630,74</td></tr>
+        <tr><td>LCA — ABC Brasil</td><td>01/12/27</td><td>91,50% CDI</td><td>R$ 207.950,94</td></tr>
+        <tr><td>CRA — FS Bio</td><td>15/05/29</td><td>IPCA + 7,68%</td><td>R$ 168.348,09</td></tr>
+        <tr><td>CDB — BTG Pactual</td><td>02/02/28</td><td>CDI</td><td>R$ 102.165,70</td></tr>
+        <tr><td style="color:#6B7280">+ demais posições</td><td></td><td></td><td style="color:#6B7280">R$ 397.624,52</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="3">Total Renda Fixa BTG</td><td>R$ 3.904.777,76</td></tr></tfoot>
+    </table>
+
+    <div class="two-col">
+      <div>
+        <div class="section-title">Renda Fixa Itaú — R$ 933.784,66</div>
+        <table>
+          <thead><tr><th>Produto</th><th>Vcto</th><th>Taxa</th><th>Saldo</th></tr></thead>
+          <tbody>
+            <tr><td>CDB</td><td>04/12/30</td><td>100% CDI</td><td>R$ 219.717</td></tr>
+            <tr><td>CDB</td><td>27/11/30</td><td>100% CDI</td><td>R$ 194.635</td></tr>
+            <tr><td>LCA</td><td>25/05/26</td><td>90,75% CDI</td><td>R$ 140.523</td></tr>
+            <tr><td>LCA</td><td>10/08/26</td><td>12,46% a.d.</td><td>R$ 132.146</td></tr>
+            <tr><td>LCI</td><td>03/06/27</td><td>91,75% CDI</td><td>R$ 94.461</td></tr>
+            <tr><td>LCI</td><td>24/04/28</td><td>91,75% CDI</td><td>R$ 67.636</td></tr>
+            <tr><td>LCI</td><td>03/04/28</td><td>91,75% CDI</td><td>R$ 56.690</td></tr>
+            <tr><td>LCA</td><td>15/05/28</td><td>91,75% CDI</td><td>R$ 27.977</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="section-title">Previdência VGBL — R$ 242.808,92</div>
+        <table>
+          <thead><tr><th>Fundo</th><th>Custo</th><th>Atual</th><th>Retorno</th></tr></thead>
+          <tbody>
+            <tr><td>Genoa Capital Cruise Prev</td><td>R$ 100k</td><td>R$ 136.203</td><td class="up">+36,2%</td></tr>
+            <tr><td>ACS Absolute Pace Prev</td><td>R$ 85k</td><td>R$ 106.606</td><td class="up">+25,4%</td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="2">Total Prev (custo R$185k)</td><td>R$ 242.809</td><td class="up">+31,2%</td></tr></tfoot>
+        </table>
+        <div class="note">VGBL regime regressivo. Iniciados em jul/2025.</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="footer">
+    <span>Relatório Pessoal — Renato Breia</span>
+    <span>31/03/2026</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ OFFSHORE ══ -->
+<div class="page">
+  <div class="section-header">
+    <h2>Carteira Offshore — Avenue</h2>
+    <span>$ 832.073,47 · R$ 4.318.461,31 (× 5,19)</span>
+  </div>
+  <div class="content">
+
+    <div class="kpi-row">
+      <div class="kpi positivo">
+        <div class="kpi-label">Ganho Acumulado (total)</div>
+        <div class="kpi-value pos">+$ 191.816</div>
+        <div class="kpi-sub">+29,9% desde compra · R$ 995.726</div>
+      </div>
+      <div class="kpi positivo">
+        <div class="kpi-label">Melhor posição</div>
+        <div class="kpi-value pos">+78,9%</div>
+        <div class="kpi-sub">Ações (desde compra)</div>
+      </div>
+      <div class="kpi negativo">
+        <div class="kpi-label">Var. no período (USD)</div>
+        <div class="kpi-value neg">-$ 30.833</div>
+        <div class="kpi-sub">12/Mar → 31/Mar · -3,6%</div>
+      </div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-wrap">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#0A2463" stroke-width="22"
+            stroke-dasharray="119 244" stroke-dashoffset="23" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#2E86DE" stroke-width="22"
+            stroke-dasharray="110 253" stroke-dashoffset="-96" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#27AE60" stroke-width="22"
+            stroke-dasharray="75 288" stroke-dashoffset="-206" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#F59E0B" stroke-width="22"
+            stroke-dasharray="55 308" stroke-dashoffset="-281" transform="rotate(-90 80 80)"/>
+        </svg>
+        <div class="chart-center">
+          <div class="chart-center-value">$832k</div>
+          <div class="chart-center-label">Avenue</div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0A2463"></div>
+          <div class="legend-label">Ações (9 ativos)</div>
+          <div class="legend-value">$ 275.350</div>
+          <div class="legend-pct">33,1%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#2E86DE"></div>
+          <div class="legend-label">Renda Fixa (8 bonds)</div>
+          <div class="legend-value">$ 253.483</div>
+          <div class="legend-pct">30,5%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#27AE60"></div>
+          <div class="legend-label">ETFs (VOO)</div>
+          <div class="legend-value">$ 174.140</div>
+          <div class="legend-pct">20,9%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#F59E0B"></div>
+          <div class="legend-label">Fundos (4 ativos)</div>
+          <div class="legend-value">$ 127.813</div>
+          <div class="legend-pct">15,4%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">PnL por Classe — Retorno Acumulado desde Compra</div>
+    <table>
+      <thead><tr><th>Classe</th><th>Custo USD</th><th>Atual USD</th><th>Ganho USD</th><th>Retorno</th><th>Ganho BRL (×5,19)</th></tr></thead>
+      <tbody>
+        <tr><td>Ações</td><td>$ 153.916</td><td>$ 275.350</td><td class="up">+$ 121.433</td><td><span class="pnl-diff pos">▲ 78,9%</span></td><td class="up">+R$ 630.037</td></tr>
+        <tr><td>ETFs (VOO)</td><td>$ 111.525</td><td>$ 174.140</td><td class="up">+$ 62.615</td><td><span class="pnl-diff pos">▲ 56,1%</span></td><td class="up">+R$ 324.972</td></tr>
+        <tr><td>Renda Fixa</td><td>$ 246.998</td><td>$ 253.483</td><td class="up">+$ 6.486</td><td><span class="pnl-diff pos">▲ 2,6%</span></td><td class="up">+R$ 33.662</td></tr>
+        <tr><td>Fundos</td><td>$ 127.766</td><td>$ 127.813</td><td class="up">+$ 47</td><td><span class="pnl-diff pos">▲ 0,0%</span></td><td class="up">+R$ 244</td></tr>
+      </tbody>
+      <tfoot><tr><td>Total</td><td>$ 640.205</td><td>$ 832.073</td><td class="up">+$ 191.868</td><td><span class="pnl-diff pos">▲ 29,9%</span></td><td class="up">+R$ 995.726</td></tr></tfoot>
+    </table>
+
+    <div class="two-col">
+      <div>
+        <div class="section-title">Ações (9 ativos)</div>
+        <table>
+          <thead><tr><th>Ticker</th><th>Nome</th><th>Cotação</th></tr></thead>
+          <tbody>
+            <tr><td>TSM</td><td>Taiwan Semiconductor ADR</td><td>$ 333,11</td></tr>
+            <tr><td>MELI</td><td>MercadoLibre</td><td>$ 1.710,58</td></tr>
+            <tr><td>MSFT</td><td>Microsoft</td><td>$ 369,85</td></tr>
+            <tr><td>TSLA</td><td>Tesla</td><td>$ 371,07</td></tr>
+            <tr><td>NFLX</td><td>Netflix</td><td>$ 95,97</td></tr>
+            <tr><td>BRK.B</td><td>Berkshire Hathaway B</td><td>$ 477,69</td></tr>
+            <tr><td>PRIM</td><td>Primoris Services</td><td>$ 143,38</td></tr>
+            <tr><td>HALO</td><td>Halozyme Therapeutics</td><td>$ 64,39</td></tr>
+            <tr><td>BN</td><td>Brookfield Corp</td><td>$ 40,42</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="section-title">Renda Fixa — Bonds</div>
+        <table>
+          <thead><tr><th>Emissor</th><th>Coupon</th><th>Vcto</th><th>Valor</th></tr></thead>
+          <tbody>
+            <tr><td>XP Inc</td><td>6,75%</td><td>07/29</td><td>$ 49.593</td></tr>
+            <tr><td>Movida</td><td>7,85%</td><td>11/29</td><td>$ 42.428</td></tr>
+            <tr><td>Rede D'Or</td><td>4,50%</td><td>01/30</td><td>$ 41.595</td></tr>
+            <tr><td>Axia Energia</td><td>6,50%</td><td>01/35</td><td>$ 35.670</td></tr>
+            <tr><td>Natura</td><td>6,00%</td><td>04/29</td><td>$ 30.033</td></tr>
+            <tr><td>Suzano</td><td>2,50%</td><td>09/28</td><td>$ 28.524</td></tr>
+            <tr><td>Bank of America</td><td>5,52%</td><td>10/35</td><td>$ 15.356</td></tr>
+            <tr><td>Caixa Fed</td><td>5,63%</td><td>05/30</td><td>$ 10.285</td></tr>
+          </tbody>
+        </table>
+        <div class="section-title" style="margin-top:12px">ETF</div>
+        <table>
+          <thead><tr><th>Ticker</th><th>Nome</th><th>Cotação</th><th>Total</th></tr></thead>
+          <tbody>
+            <tr><td>VOO</td><td>Vanguard S&P 500</td><td>$ 595,55</td><td>$ 174.140</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <div class="footer">
+    <span>Relatório Pessoal — Renato Breia</span>
+    <span>31/03/2026</span>
+  </div>
+</div>
+
+<!-- ═════════════════════════════════════════════ CRIPTO ══ -->
+<div class="page">
+  <div class="section-header">
+    <h2>Carteira Cripto — Mercado Bitcoin</h2>
+    <span>Total: R$ 464.754,73</span>
+  </div>
+  <div class="content" style="padding-top:32px">
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Total Cripto</div>
+        <div class="kpi-value">R$ 464.755</div>
+        <div class="kpi-sub">2,5% do patrimônio total</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Bitcoin</div>
+        <div class="kpi-value">R$ 352.650</div>
+        <div class="kpi-sub">75,9% · 1,00016603 BTC</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Ethereum (staking)</div>
+        <div class="kpi-value">R$ 101.876</div>
+        <div class="kpi-sub">21,9% · 9,30543 ETH</div>
+      </div>
+    </div>
+
+    <div class="chart-row" style="margin-top:20px">
+      <div class="chart-wrap">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#F59E0B" stroke-width="22"
+            stroke-dasharray="273 90" stroke-dashoffset="23" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#6366F1" stroke-width="22"
+            stroke-dasharray="79 284" stroke-dashoffset="-250" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#10B981" stroke-width="22"
+            stroke-dasharray="8 355" stroke-dashoffset="-329" transform="rotate(-90 80 80)"/>
+        </svg>
+        <div class="chart-center">
+          <div class="chart-center-value">R$465k</div>
+          <div class="chart-center-label">Cripto</div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#F59E0B"></div>
+          <div class="legend-label">Bitcoin (BTC)</div>
+          <div class="legend-value">R$ 352.650</div>
+          <div class="legend-pct">75,9%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#6366F1"></div>
+          <div class="legend-label">Ethereum staking (ETH)</div>
+          <div class="legend-value">R$ 101.876</div>
+          <div class="legend-pct">21,9%</div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#10B981"></div>
+          <div class="legend-label">Solana (SOL)</div>
+          <div class="legend-value">R$ 10.229</div>
+          <div class="legend-pct">2,2%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Posições Detalhadas</div>
+    <table>
+      <thead><tr><th>Ativo</th><th>Quantidade</th><th>Valor BRL</th><th>% Cripto</th><th>% Patrimônio</th></tr></thead>
+      <tbody>
+        <tr><td>Bitcoin (BTC)</td><td>1,00016603 BTC</td><td>R$ 352.649,54</td><td>75,9%</td><td>1,88%</td></tr>
+        <tr><td>Ethereum — staking (ETH)</td><td>9,30543094 ETH</td><td>R$ 101.875,85</td><td>21,9%</td><td>0,54%</td></tr>
+        <tr><td>Solana (SOL)</td><td>23,74003555 SOL</td><td>R$ 10.229,34</td><td>2,2%</td><td>0,05%</td></tr>
+      </tbody>
+      <tfoot><tr><td>Total Cripto</td><td>—</td><td>R$ 464.754,73</td><td>100%</td><td>2,47%</td></tr></tfoot>
+    </table>
+
+    <hr class="divider">
+
+    <!-- RESUMO FINAL -->
+    <div class="section-title" style="margin-top:28px">Resumo Consolidado — 31/Mar/2026</div>
+    <table>
+      <thead><tr><th>Bloco</th><th>Instituição</th><th>Moeda</th><th>Valor BRL</th><th>%</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="2">Onshore</td><td>BTG Investimentos</td><td>BRL</td><td>R$ 13.085.295</td><td>69,6%</td></tr>
+        <tr><td>Itaú</td><td>BRL</td><td>R$ 935.189</td><td>5,0%</td></tr>
+        <tr><td>Offshore</td><td>Avenue</td><td>USD</td><td>R$ 4.318.461</td><td>22,9%</td></tr>
+        <tr><td rowspan="3">Cripto</td><td>Mercado Bitcoin — BTC</td><td>BRL</td><td>R$ 352.650</td><td>1,9%</td></tr>
+        <tr><td>Mercado Bitcoin — ETH</td><td>BRL</td><td>R$ 101.876</td><td>0,5%</td></tr>
+        <tr><td>Mercado Bitcoin — SOL</td><td>BRL</td><td>R$ 10.229</td><td>0,1%</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="3">PATRIMÔNIO TOTAL</td><td>R$ 18.803.700,24</td><td>100%</td></tr></tfoot>
+    </table>
+
+    <div class="note" style="margin-top:16px">
+      Relatório gerado em 31/03/2026. Câmbio USD/BRL: R$ 5,19. Posições onshore baseadas no Relatório Visão 360° BTG Nord Wealth (31/03/2026). Posições offshore baseadas no app Avenue (31/03/2026 14:33). Posições cripto baseadas no app Mercado Bitcoin (31/03/2026). Análise PnL comparada com snapshot de 12/03/2026.
+    </div>
+
+  </div>
+  <div class="footer">
+    <span>Relatório Pessoal — Renato Breia</span>
+    <span>31/03/2026</span>
+  </div>
+</div>
+
+</body>
+</html>

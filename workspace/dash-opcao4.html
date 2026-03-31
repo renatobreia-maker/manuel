@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Opção 4 – Gráfico Único Integrado</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; font-family: 'Segoe UI', system-ui, sans-serif; color: #1e293b; padding: 40px; }
+  .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; border-bottom: 2px solid #f1f5f9; padding-bottom: 18px; }
+  .header-left h1 { font-size: 20px; font-weight: 700; color: #0f172a; }
+  .header-left p { font-size: 12px; color: #94a3b8; margin-top: 3px; }
+  .badge { background: #fef9c3; color: #854d0e; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; border: 1px solid #fde047; }
+  .chart-container { background: #fff; border: 1px solid #f1f5f9; border-radius: 16px; padding: 28px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06); position: relative; }
+  .chart-subtitle { font-size: 11px; color: #94a3b8; text-align: center; margin-top: 16px; letter-spacing: 0.5px; }
+  .legend-strip { display: flex; gap: 24px; justify-content: center; margin-top: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #64748b; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .legend-line { width: 18px; height: 3px; border-radius: 2px; }
+  .sep { margin-top: 28px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Pipeline Integrado — Nord Wealth</h1>
+    <p>Barras: Agendados EM · Linhas: comparativo de métricas · Jan/25 – Mar/26</p>
+  </div>
+  <div class="badge">Mar/26 destaque</div>
+</div>
+
+<div class="chart-container">
+  <canvas id="comboChart" height="300"></canvas>
+  <div class="chart-subtitle">R$ em milhões · Barras = Agendados EM · Linhas = demais métricas</div>
+</div>
+
+<div class="sep">
+  <div class="chart-container">
+    <canvas id="stackedBar" height="200"></canvas>
+    <div class="chart-subtitle">Barras empilhadas · visão proporcional por mês</div>
+  </div>
+</div>
+
+<script>
+const labels = ['Jan/25','Fev/25','Mar/25','Abr/25','Mai/25','Jun/25','Jul/25','Ago/25','Set/25','Out/25','Nov/25','Dez/25','Jan/26','Fev/26','Mar/26'];
+const d1 = [370,300,250,280,390,420,440,520,540,530,430,420,430,425,445];
+const d2 = [380,280,260,290,360,400,420,500,520,510,200,410,380,405,610];
+const d3 = [280,250,220,260,310,370,390,470,490,470,220,400,365,370,540];
+const d4 = [80,60,70,50,55,90,140,155,195,175,75,85,95,105,115];
+
+// highlight Mar/26
+const barColors = d1.map((_, i) => i === 14 ? '#1d4ed8' : 'rgba(59,130,246,0.35)');
+
+const gc = 'rgba(241,245,249,1)';
+const tc = { color: '#94a3b8', font: { size: 10 } };
+
+new Chart(document.getElementById('comboChart'), {
+  data: {
+    labels,
+    datasets: [
+      {
+        type: 'bar',
+        label: 'Agendados EM',
+        data: d1,
+        backgroundColor: barColors,
+        borderRadius: 6,
+        borderSkipped: false,
+        yAxisID: 'y',
+        order: 2,
+        barPercentage: 0.55
+      },
+      { type: 'line', label: 'Agendados PARA', data: d2, borderColor: '#f97316', backgroundColor: 'transparent', tension: 0.4, pointRadius: 3, pointBackgroundColor: '#f97316', borderWidth: 2.5, yAxisID: 'y', order: 1 },
+      { type: 'line', label: 'Realizados', data: d3, borderColor: '#eab308', backgroundColor: 'transparent', tension: 0.4, pointRadius: 3, pointBackgroundColor: '#eab308', borderWidth: 2.5, yAxisID: 'y', order: 1 },
+      { type: 'line', label: 'Fechados', data: d4, borderColor: '#22c55e', backgroundColor: 'transparent', tension: 0.4, pointRadius: 3, pointBackgroundColor: '#22c55e', borderWidth: 2, yAxisID: 'y', order: 1 },
+    ]
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: { legend: { labels: { color: '#475569', font: { size: 11 }, padding: 24 } } },
+    scales: {
+      x: { grid: { display: false }, ticks: tc, border: { color: '#e2e8f0' } },
+      y: { grid: { color: gc }, ticks: { ...tc, callback: v => 'R$' + v + 'MM' }, border: { color: 'transparent' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('stackedBar'), {
+  type: 'bar',
+  data: {
+    labels,
+    datasets: [
+      { label: 'Fechados', data: d4, backgroundColor: '#4ade80', stack: 'a', borderRadius: 0 },
+      { label: 'Realizados', data: d3, backgroundColor: '#fbbf24', stack: 'a', borderRadius: 0 },
+      { label: 'Agendados PARA', data: d2, backgroundColor: '#fb923c', stack: 'a', borderRadius: 0 },
+      { label: 'Agendados EM', data: d1, backgroundColor: '#60a5fa', stack: 'a', borderRadius: 0 },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#475569', font: { size: 11 }, padding: 20 } } },
+    scales: {
+      x: { grid: { display: false }, ticks: tc, stacked: true, border: { color: '#e2e8f0' } },
+      y: { grid: { color: gc }, ticks: { ...tc, callback: v => 'R$' + v }, stacked: true, border: { color: 'transparent' } }
+    }
+  }
+});
+</script>
+</body>
+</html>

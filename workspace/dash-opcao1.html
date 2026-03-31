@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opção 1 – Dark Mode Executivo</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d0f1a; font-family: 'Segoe UI', sans-serif; color: #e0e0e0; padding: 32px; }
+  h1 { font-size: 13px; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; color: #555; margin-bottom: 4px; }
+  h2 { font-size: 22px; font-weight: 600; color: #fff; margin-bottom: 32px; }
+  .label-tag { display: inline-block; background: #1e2235; border: 1px solid #2a2e4a; color: #7b8ab8; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 12px; }
+  .chart-box { background: #13162a; border: 1px solid #1e2240; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .chart-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #4a5480; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+<div class="label-tag">Nord Wealth · Pipeline</div>
+<h2>Agendamentos & Realizações</h2>
+
+<div class="chart-box">
+  <div class="chart-title">Volume Mensal — Jan/25 a Mar/26</div>
+  <canvas id="barChart" height="220"></canvas>
+</div>
+
+<div class="chart-box">
+  <div class="chart-title">Tendência Acumulada</div>
+  <canvas id="lineChart" height="160"></canvas>
+</div>
+
+<script>
+const labels = ['Jan/25','Fev/25','Mar/25','Abr/25','Mai/25','Jun/25','Jul/25','Ago/25','Set/25','Out/25','Nov/25','Dez/25','Jan/26','Fev/26','Mar/26'];
+const d1 = [370,300,250,280,390,420,440,520,540,530,430,420,430,425,445];
+const d2 = [380,280,260,290,360,400,420,500,520,510,200,410,380,405,610];
+const d3 = [280,250,220,260,310,370,390,470,490,470,220,400,365,370,540];
+const d4 = [80,60,70,50,55,90,140,155,195,175,75,85,95,105,115];
+
+const darkGrid = { color: 'rgba(255,255,255,0.05)' };
+const tickStyle = { color: '#3a4060', font: { size: 10 } };
+
+Chart.defaults.color = '#3a4060';
+
+new Chart(document.getElementById('barChart'), {
+  type: 'bar',
+  data: {
+    labels,
+    datasets: [
+      { label: 'Agendados EM', data: d1, backgroundColor: 'rgba(59,130,246,0.85)', borderRadius: 3, borderSkipped: false },
+      { label: 'Agendados PARA', data: d2, backgroundColor: 'rgba(249,115,22,0.85)', borderRadius: 3, borderSkipped: false },
+      { label: 'Realizados', data: d3, backgroundColor: 'rgba(234,179,8,0.85)', borderRadius: 3, borderSkipped: false },
+      { label: 'Fechados', data: d4, backgroundColor: 'rgba(34,197,94,0.85)', borderRadius: 3, borderSkipped: false },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#7080a0', font: { size: 11 }, padding: 20 } } },
+    scales: {
+      x: { grid: darkGrid, ticks: tickStyle, border: { color: 'transparent' } },
+      y: {
+        grid: darkGrid, ticks: { ...tickStyle, callback: v => 'R$' + v + 'MM' },
+        border: { color: 'transparent' }
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('lineChart'), {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      { label: 'Agendados EM', data: d1, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.08)', fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#3b82f6' },
+      { label: 'Agendados PARA', data: d2, borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,0.06)', fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#f97316' },
+      { label: 'Realizados', data: d3, borderColor: '#eab308', backgroundColor: 'rgba(234,179,8,0.05)', fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#eab308' },
+      { label: 'Fechados', data: d4, borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.05)', fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#22c55e' },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#7080a0', font: { size: 11 }, padding: 20 } } },
+    scales: {
+      x: { grid: darkGrid, ticks: tickStyle, border: { color: 'transparent' } },
+      y: { grid: darkGrid, ticks: { ...tickStyle, callback: v => 'R$' + v + 'MM' }, border: { color: 'transparent' } }
+    }
+  }
+});
+</script>
+</body>
+</html>
