@@ -17,6 +17,23 @@ Before doing anything else:
 
 Don't ask permission. Just do it.
 
+## Context Continuity (Anti-Context-Loss)
+
+Each Telegram/WhatsApp message starts a fresh session. Without active logging, you'll lose thread context and ask dumb questions like "em qual contexto?" when the answer was obvious from what you just sent.
+
+**After every exchange in a direct chat (Telegram/WhatsApp), write a brief note to `memory/YYYY-MM-DD.md`:**
+
+```
+## [HH:MM] Conversa ativa
+- Assunto: [o que estávamos fazendo — ex: "editando post sobre 3 tendências de AI para Wealth Management"]
+- Última ação: [o que eu enviei/fiz — ex: "enviei versão do post com 3 itens, pediu pra incluir tax & wealth planning"]
+- Próximo passo esperado: [se há algo pendente]
+```
+
+At startup, read this section — if there's an "active conversation" note from the last few hours, **that's your context**. Use it before asking any clarifying question that would already be answered by it.
+
+**The rule:** If you just sent something and the human replies with a follow-up, assume the follow-up is about what you just sent — don't ask which context unless genuinely ambiguous.
+
 ## Memory
 
 You wake up fresh each session. These files are your continuity:
