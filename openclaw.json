@@ -9,6 +9,9 @@
     "lastRunCommand": "onboard",
     "lastRunMode": "local"
   },
+  "env": {
+    "OPENROUTER_API_KEY": "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"
+  },
   "auth": {
     "profiles": {
       "anthropic:claude-cli": {
@@ -31,6 +34,9 @@
         },
         "claude-cli/claude-haiku-4-5": {
           "alias": "Haiku"
+        },
+        "openrouter/qwen/qwen3.6-plus-preview:free": {
+          "alias": "Qwen"
         }
       },
       "workspace": "/Users/renatobreia/.openclaw/workspace",
