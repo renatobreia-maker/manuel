@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Estratégia de Redes Sociais — Renato Breia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .cover {
+    background: linear-gradient(135deg, #0a1628 0%, #1a3a5c 60%, #0d2340 100%);
+    color: white;
+    padding: 80px 60px;
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .cover .label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #7fb3d3;
+    margin-bottom: 16px;
+  }
+  .cover h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .cover .subtitle {
+    font-size: 16px;
+    color: #aed6f1;
+    margin-bottom: 24px;
+  }
+  .cover .meta {
+    font-size: 12px;
+    color: #7fb3d3;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 16px;
+    margin-top: 16px;
+  }
+  .content {
+    padding: 40px 60px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a1628;
+    margin: 36px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #1a3a5c;
+  }
+  h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin: 20px 0 8px;
+  }
+  p { margin-bottom: 10px; }
+  ul, ol { margin: 8px 0 12px 24px; }
+  li { margin-bottom: 5px; }
+  .highlight-box {
+    background: #eaf3fb;
+    border-left: 4px solid #1a3a5c;
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: #0a1628;
+    font-size: 14px;
+  }
+  .alert-box {
+    background: #fff3cd;
+    border-left: 4px solid #e6a817;
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 20px;
+    font-size: 13px;
+  }
+  th {
+    background: #0a1628;
+    color: white;
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #dde8f0;
+  }
+  tr:nth-child(even) td { background: #f0f7fc; }
+  .tag-green {
+    background: #d4edda;
+    color: #155724;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .tag-red {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .metric-card {
+    background: white;
+    border: 1px solid #dde8f0;
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .metric-card .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a3a5c;
+    display: block;
+  }
+  .metric-card .label {
+    font-size: 11px;
+    color: #777;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .funnel {
+    background: white;
+    border: 1px solid #dde8f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 14px 0;
+    text-align: center;
+  }
+  .funnel-step {
+    background: #eaf3fb;
+    border: 1px solid #1a3a5c;
+    border-radius: 6px;
+    padding: 8px 20px;
+    margin: 6px auto;
+    max-width: 340px;
+    font-size: 13px;
+    color: #0a1628;
+  }
+  .funnel-arrow {
+    font-size: 18px;
+    color: #1a3a5c;
+    margin: 2px 0;
+    display: block;
+  }
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(to right, #1a3a5c, transparent);
+    margin: 30px 0;
+  }
+  .footer {
+    background: #0a1628;
+    color: #7fb3d3;
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="label">Estratégia Completa</div>
+  <h1>Redes Sociais — Renato Breia</h1>
+  <div class="subtitle">Posicionamento · Conteúdo · Audiência · Monetização</div>
+  <div class="meta">Elaborado por MANUEL · Abril de 2026 · Baseado em dados reais do período Mar–Abr 2026</div>
+</div>
+
+<div class="content">
+
+  <!-- DIAGNÓSTICO -->
+  <h2>1. Diagnóstico de Dados (Mar–Abr 2026)</h2>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <span class="value">192K</span>
+      <span class="label">Seguidores</span>
+    </div>
+    <div class="metric-card">
+      <span class="value">316K</span>
+      <span class="label">Views de Reels</span>
+    </div>
+    <div class="metric-card">
+      <span class="value">296K</span>
+      <span class="label">Contas Alcançadas</span>
+    </div>
+    <div class="metric-card">
+      <span class="value">13</span>
+      <span class="label">Reels Postados</span>
+    </div>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <span class="value">16K</span>
+      <span class="label">Curtidas</span>
+    </div>
+    <div class="metric-card">
+      <span class="value">524</span>
+      <span class="label">Comentários</span>
+    </div>
+    <div class="metric-card">
+      <span class="value">3,8K</span>
+      <span class="label">Compartilhamentos</span>
+    </div>
+    <div class="metric-card">
+      <span class="value">1,5K</span>
+      <span class="label">Salvamentos</span>
+    </div>
+  </div>
+
+  <h3>Análise das Taxas</h3>
+  <table>
+    <tr>
+      <th>Métrica</th>
+      <th>Sua taxa</th>
+      <th>Benchmark</th>
+      <th>Status</th>
+    </tr>
+    <tr>
+      <td>Views médios/Reel</td>
+      <td><strong>24.300</strong></td>
+      <td>~15K para 192K seg.</td>
+      <td><span class="tag-green">ACIMA</span></td>
+    </tr>
+    <tr>
+      <td>Alcance vs. Seguidores</td>
+      <td><strong>154%</strong></td>
+      <td>80–100%</td>
+      <td><span class="tag-green">EXCELENTE</span></td>
+    </tr>
+    <tr>
+      <td>Like rate</td>
+      <td><strong>5,0%</strong></td>
+      <td>2–3%</td>
+      <td><span class="tag-green">ACIMA</span></td>
+    </tr>
+    <tr>
+      <td>Share rate</td>
+      <td><strong>1,2%</strong></td>
+      <td>0,5–1%</td>
+      <td><span class="tag-green">BOM</span></td>
+    </tr>
+    <tr>
+      <td>Comment rate</td>
+      <td><strong>0,17%</strong></td>
+      <td>0,5–1%</td>
+      <td><span class="tag-red">BAIXO</span></td>
+    </tr>
+    <tr>
+      <td>Save rate</td>
+      <td><strong>0,47%</strong></td>
+      <td>0,5–1%</td>
+      <td><span class="tag-red">ABAIXO</span></td>
+    </tr>
+  </table>
+
+  <div class="alert-box">
+    <strong>Problema central:</strong> Engajamento passivo. As pessoas assistem, curtem e compartilham — mas não conversam. 524 comentários em 316K views = 1 comentário para cada 600 views. O algoritmo prioriza comentários para crescimento orgânico; você está perdendo alavancagem.
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- POSICIONAMENTO -->
+  <h2>2. Posicionamento de Marca</h2>
+
+  <p>Atualmente você aparece como "a cara da Nord" — perfil forte, mas misturado entre institucional e pessoal. Isso dilui a percepção de autoridade individual.</p>
+
+  <div class="highlight-box">
+    "O estrategista de patrimônio que fala o que os bancos não querem que você saiba"
+  </div>
+
+  <p>Você não é mais um educador financeiro genérico. Você é um <strong>CFP com R$ 11 bi sob gestão que tem skin in the game</strong> — isso é raro e diferencia radicalmente de criadores como Thiago Nigro ou Bruno Perini, que ensinam sem gerir patrimônio real.</p>
+
+  <h3>Tagline sugerida para bio</h3>
+  <div class="highlight-box">
+    "Gerio R$ 11 bi. Vou te mostrar como pensar como quem tem."
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- AUDIÊNCIA -->
+  <h2>3. Segmentação de Audiência</h2>
+
+  <table>
+    <tr>
+      <th>Público</th>
+      <th>Perfil</th>
+      <th>O que buscam</th>
+      <th>Prioridade</th>
+    </tr>
+    <tr>
+      <td><strong>Investidor Aspiracional</strong></td>
+      <td>25–40 anos, R$ 50K–500K investido</td>
+      <td>Aprender a investir melhor</td>
+      <td><span class="tag-green">60%</span></td>
+    </tr>
+    <tr>
+      <td><strong>Investidor HNW</strong></td>
+      <td>40–60 anos, R$ 1M+</td>
+      <td>Validar decisões, proteger patrimônio</td>
+      <td><span class="tag-green">30%</span></td>
+    </tr>
+    <tr>
+      <td><strong>Profissional do Mercado</strong></td>
+      <td>CFPs, assessores, gestores</td>
+      <td>Benchmark, network, posicionamento</td>
+      <td>10%</td>
+    </tr>
+  </table>
+
+  <div class="section-divider"></div>
+
+  <!-- CONTEÚDO -->
+  <h2>4. Direção de Conteúdo por Plataforma</h2>
+
+  <h3>Instagram (192K → meta: 500K em 18 meses)</h3>
+  <p>Frequência recomendada: <strong>5x/semana</strong> (3 Reels + 2 carrosséis). Atualmente você posta ~3x/semana — precisa aumentar volume.</p>
+
+  <p><strong>5 Pilares de conteúdo em rotação semanal:</strong></p>
+  <ol>
+    <li><strong>"O que os bancos escondem"</strong> — desmistificar produtos ruins (CDB de banco grande vs. renda fixa independente)</li>
+    <li><strong>"Bastidores do R$ 11 bi"</strong> — o que você vê nos portfólios de quem tem muito patrimônio</li>
+    <li><strong>"Decisão de patrimônio real"</strong> — cases anonimizados: "cliente com R$ 3M perguntou X, fizemos Y"</li>
+    <li><strong>"CFP na prática"</strong> — conceitos técnicos em linguagem direta, sem rodeios</li>
+    <li><strong>"Opinião sobre cenário"</strong> — tomada de posição sobre macro (taxa, câmbio, política)</li>
+  </ol>
+
+  <h3>LinkedIn (canal prioritário para HNW)</h3>
+  <p>Esse público não está no Instagram. LinkedIn é seu canal mais importante para captação Nord Wealth.</p>
+  <ul>
+    <li>1 post/dia (tom técnico)</li>
+    <li>1 artigo de 500–800 palavras/semana</li>
+    <li>Foco: gestão de patrimônio, planejamento sucessório, family office, offshore</li>
+  </ul>
+
+  <h3>YouTube</h3>
+  <p>Episódios de 15–25 min tipo "Consultoria ao vivo" — casos reais anonimizados com raciocínio de construção de portfólio. Ninguém faz isso com credibilidade no Brasil.</p>
+
+  <div class="section-divider"></div>
+
+  <!-- MONETIZAÇÃO -->
+  <h2>5. Estratégia de Monetização</h2>
+
+  <p>Você já tem o melhor produto: a <strong>Nord Wealth</strong>. A estratégia de conteúdo deve ser um funil para lá.</p>
+
+  <div class="funnel">
+    <div class="funnel-step"><strong>Reels virais</strong> (topo de funil)</div>
+    <span class="funnel-arrow">↓</span>
+    <div class="funnel-step"><strong>Lead magnet gratuito</strong> — "Checklist do Patrimônio Protegido"</div>
+    <span class="funnel-arrow">↓</span>
+    <div class="funnel-step"><strong>Lista de e-mail / WhatsApp</strong> (nutrição)</div>
+    <span class="funnel-arrow">↓</span>
+    <div class="funnel-step"><strong>Webinar mensal</strong> "Como famílias com R$ 5M+ protegem patrimônio"</div>
+    <span class="funnel-arrow">↓</span>
+    <div class="funnel-step"><strong>Consulta Nord Wealth</strong></div>
+  </div>
+
+  <h3>Monetizações secundárias</h3>
+  <ul>
+    <li><strong>Mentoria para CFPs</strong> — R$ 5–15K/grupo, formação de gestoras/escritórios</li>
+    <li><strong>Evento presencial anual</strong> — "Summit de Patrimônio" (300–500 pessoas, R$ 2–5K ingresso)</li>
+    <li><strong>Infoproduto pontual</strong> — curso de portfólio HNW (R$ 2–3K), usado como filtro de lead para Nord Wealth</li>
+  </ul>
+
+  <div class="section-divider"></div>
+
+  <!-- AJUSTES TÁTICOS -->
+  <h2>6. Ajustes Táticos Imediatos</h2>
+
+  <h3>Aumentar comentários (prioridade #1)</h3>
+  <ul>
+    <li>Terminar todo Reel com 1 pergunta direta: <em>"Você faria isso ou ficaria no CDB? Comenta abaixo"</em></li>
+    <li>Criar Reels com afirmação polêmica no gancho: <em>"Tesouro Direto é o pior investimento para quem tem mais de R$ 500K"</em></li>
+    <li>Responder os primeiros 10 comentários em todo post (sinaliza ao algoritmo)</li>
+  </ul>
+
+  <h3>Converter shares em seguidores</h3>
+  <p>3,8K compartilhamentos = pessoas te indicando. O primeiro frame do Reel precisa ter gancho + credencial: <em>"21 anos de mercado, R$ 11 bi sob gestão — e isso me surpreendeu"</em></p>
+
+  <h3>Aumentar salvamentos</h3>
+  <p>Formatos que geram save: carrosséis de checklist, comparativos visuais, tabelas de "o que fazer vs. não fazer".</p>
+
+  <div class="section-divider"></div>
+
+  <!-- METAS -->
+  <h2>7. Metas de Crescimento</h2>
+
+  <table>
+    <tr>
+      <th>Marco</th>
+      <th>Prazo</th>
+      <th>KPI</th>
+    </tr>
+    <tr>
+      <td>250K seguidores Instagram</td>
+      <td>6 meses</td>
+      <td>+3K/semana</td>
+    </tr>
+    <tr>
+      <td>500K seguidores Instagram</td>
+      <td>18 meses</td>
+      <td>Viral consistente</td>
+    </tr>
+    <tr>
+      <td>50K seguidores LinkedIn</td>
+      <td>12 meses</td>
+      <td>1 post/dia</td>
+    </tr>
+    <tr>
+      <td>10K e-mails na lista</td>
+      <td>6 meses</td>
+      <td>Lead magnet ativo</td>
+    </tr>
+    <tr>
+      <td>100K inscritos YouTube</td>
+      <td>18 meses</td>
+      <td>2 vídeos/mês</td>
+    </tr>
+  </table>
+
+  <h2>8. Ações Imediatas (próximas 2 semanas)</h2>
+  <ol>
+    <li>Atualizar bio com posicionamento único (não só cargos)</li>
+    <li>Criar série fixa — ex: <em>"Toda segunda: o que aprendi gerindo R$ 11 bi"</em></li>
+    <li>Lançar lead magnet — 1 PDF simples para capturar e-mails</li>
+    <li>Gravar 8 Reels em batch — temas prontos, gravar numa tarde</li>
+    <li>Ativar LinkedIn com consistência mínima (1 post/dia por 30 dias)</li>
+  </ol>
+
+</div>
+
+<div class="footer">
+  Análise elaborada por MANUEL · @renatobreia · Abril de 2026
+</div>
+
+</body>
+</html>
